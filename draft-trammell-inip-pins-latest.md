@@ -25,7 +25,6 @@ author:
     email: ietf@trammell.ch
 
 normative:
-  RFC2119:
 
 informative:
 
@@ -41,6 +40,12 @@ This document specifies a set of necessary functions and desirable properties of
 [EDITOR'S NOTE: say nice things about DNS here]
 
 # Functions
+
+At its core, a naming service must provide a few basic functions, associating
+a subject of a query with information about that subject. The information
+available from a naming service is that which is necessary for a querier to
+establish a connection with some other entity in the Internet, given a name
+identifying it.
 
 ## Name to Address
 
@@ -108,7 +113,7 @@ Authority at the top level of the namespace tree is delegated according to a pro
 
 A querier must be able to verify that the answers that it gets from the naming service are authentic.
 
-### Authenticity of Federation
+### Authenticity of Delegation
 
 Given a delegation from a superordinate to a subordinate authority, a querier
 must be able to verify that the superordinate authority authorized the

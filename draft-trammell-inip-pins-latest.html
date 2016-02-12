@@ -282,7 +282,7 @@ li, p {
 <link href="#rfc.section.3.1.3" rel="Chapter" title="3.1.3 Transparency of Authority"/>
 <link href="#rfc.section.3.1.4" rel="Chapter" title="3.1.4 Consensus on Root of Authority"/>
 <link href="#rfc.section.3.2" rel="Chapter" title="3.2 Authenticity"/>
-<link href="#rfc.section.3.2.1" rel="Chapter" title="3.2.1 Authenticity of Federation"/>
+<link href="#rfc.section.3.2.1" rel="Chapter" title="3.2.1 Authenticity of Delegation"/>
 <link href="#rfc.section.3.2.2" rel="Chapter" title="3.2.2 Authenticity of Response"/>
 <link href="#rfc.section.3.2.3" rel="Chapter" title="3.2.3 Authenticity of Negative Response"/>
 <link href="#rfc.section.3.3" rel="Chapter" title="3.3 Consistency"/>
@@ -297,7 +297,6 @@ li, p {
 <link href="#rfc.section.4" rel="Chapter" title="4 IANA Considerations"/>
 <link href="#rfc.section.5" rel="Chapter" title="5 Security Considerations"/>
 <link href="#rfc.section.6" rel="Chapter" title="6 Acknowledgments"/>
-<link href="#rfc.references" rel="Chapter" title="7 Normative References"/>
 <link href="#rfc.authors" rel="Chapter"/>
 
 
@@ -377,7 +376,7 @@ li, p {
 <li>3.1.3.   <a href="#rfc.section.3.1.3">Transparency of Authority</a></li>
 <li>3.1.4.   <a href="#rfc.section.3.1.4">Consensus on Root of Authority</a></li>
 </ul><li>3.2.   <a href="#rfc.section.3.2">Authenticity</a></li>
-<ul><li>3.2.1.   <a href="#rfc.section.3.2.1">Authenticity of Federation</a></li>
+<ul><li>3.2.1.   <a href="#rfc.section.3.2.1">Authenticity of Delegation</a></li>
 <li>3.2.2.   <a href="#rfc.section.3.2.2">Authenticity of Response</a></li>
 <li>3.2.3.   <a href="#rfc.section.3.2.3">Authenticity of Negative Response</a></li>
 </ul><li>3.3.   <a href="#rfc.section.3.3">Consistency</a></li>
@@ -392,7 +391,6 @@ li, p {
 </ul></ul><li>4.   <a href="#rfc.section.4">IANA Considerations</a></li>
 <li>5.   <a href="#rfc.section.5">Security Considerations</a></li>
 <li>6.   <a href="#rfc.section.6">Acknowledgments</a></li>
-<li>7.   <a href="#rfc.references">Normative References</a></li>
 <li><a href="#rfc.authors">Author's Address</a></li>
 
 
@@ -401,6 +399,7 @@ li, p {
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
 <p id="rfc.section.1.p.1">[EDITOR&#8217;S NOTE: say nice things about DNS here]</p>
 <h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#functions" id="functions">Functions</a></h1>
+<p id="rfc.section.2.p.1">At its core, a naming service must provide a few basic functions, associating a subject of a query with information about that subject. The information available from a naming service is that which is necessary for a querier to establish a connection with some other entity in the Internet, given a name identifying it.</p>
 <h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#name-to-address" id="name-to-address">Name to Address</a></h1>
 <p id="rfc.section.2.1.p.1">Given a name, the naming service returns a set of addresses associated with that name, if such an association exists, where the association is determined by the authority for that name. Names may be associated with addresses in one or more address families (e.g. IP version 4, IP version 6). A querier may specify which address families it is interested in receiving addresses for, and the naming system treats all address families equally.</p>
 <p id="rfc.section.2.1.p.2">[EDITOR&#8217;S NOTE: DNS does this for the Internet via IN A and IN AAAA records.]</p>
@@ -433,7 +432,7 @@ li, p {
 <p id="rfc.section.3.1.4.p.2">[EDITOR&#8217;S NOTE: Today, this is the root zone. But note that this property does not necessarily imply, as with the present arrangement, a single authority at the root, only that the process by which the root is changed and operated leads to a universally consistent result.]</p>
 <h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#authenticity" id="authenticity">Authenticity</a></h1>
 <p id="rfc.section.3.2.p.1">A querier must be able to verify that the answers that it gets from the naming service are authentic.</p>
-<h1 id="rfc.section.3.2.1"><a href="#rfc.section.3.2.1">3.2.1.</a> <a href="#authenticity-of-federation" id="authenticity-of-federation">Authenticity of Federation</a></h1>
+<h1 id="rfc.section.3.2.1"><a href="#rfc.section.3.2.1">3.2.1.</a> <a href="#authenticity-of-delegation" id="authenticity-of-delegation">Authenticity of Delegation</a></h1>
 <p id="rfc.section.3.2.1.p.1">Given a delegation from a superordinate to a subordinate authority, a querier must be able to verify that the superordinate authority authorized the delegation.</p>
 <p id="rfc.section.3.2.1.p.2">[EDITOR&#8217;S NOTE: DNSSEC does this.]</p>
 <h1 id="rfc.section.3.2.2"><a href="#rfc.section.3.2.2">3.2.2.</a> <a href="#authenticity-of-response" id="authenticity-of-response">Authenticity of Response</a></h1>
@@ -477,17 +476,6 @@ li, p {
 <p id="rfc.section.5.p.1">[EDITOR&#8217;S NOTE: todo]</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a></h1>
 <p id="rfc.section.6.p.1">Thanks to the Network Security Group at ETH Zurich, Andrew Sullivan, and Suzanne Woolf for the input and discussions leading to this document.</p>
-<h1 id="rfc.references"><a href="#rfc.references">7.</a> Normative References</h1>
-<table>
-  <tbody>
-    <tr>
-      <td class="reference">
-        <b id="RFC2119">[RFC2119]</b>
-      </td>
-      <td class="top"><a>Bradner, S.</a>, "<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
-    </tr>
-  </tbody>
-</table>
 <h1 id="rfc.authors">
   <a href="#rfc.authors">Author's Address</a>
 </h1>

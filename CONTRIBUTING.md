@@ -1,24 +1,4 @@
-# Properties of an Ideal Naming Service
-
-This is the working area for the Individual internet-draft, "Properties of an Ideal Naming Service".
-
-* [Editor's copy](https://britram.github.io/pins/)
-* [Individual Draft] (https://tools.ietf.org/html/draft-trammell-inip-pins-latest)
-
-
-## Building the Draft
-
-Formatted text and HTML versions of the draft can be built using `make`.
-
-```sh
-$ make
-```
-
-This requires that you have the necessary software installed.  See [the
-instructions](https://github.com/martinthomson/i-d-template/blob/master/doc/SETUP.md).
-
-
-## Contributing
+# Contributing
 
 Before submitting feedback, please familiarize yourself with our current issues
 list and review the [working group

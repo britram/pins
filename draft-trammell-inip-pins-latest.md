@@ -17,17 +17,15 @@ author:
  -
     ins: B. Trammell
     name: Brian Trammell
-    organization: ETH Zurich (D-INFK)
+    organization: ETH Zurich
     street: Universitaetstrasse 6
     city: Zurich
     code: 8092
     country: Switzerland
     email: ietf@trammell.ch
 
-normative:
-
 informative:
-
+    RFC1035:
 
 --- abstract
 
@@ -37,15 +35,19 @@ This document specifies a set of necessary functions and desirable properties of
 
 # Introduction
 
-[EDITOR'S NOTE: say nice things about DNS here]
+[EDITOR'S NOTE: frontmatter: say nice things about DNS, point out that it's one point in a design space, introduce exercise to define what we mean by "good" with respect to this design space]
 
-# Functions
+# Terminology
 
-At its core, a naming service must provide a few basic functions, associating
-a subject of a query with information about that subject. The information
-available from a naming service is that which is necessary for a querier to
-establish a connection with some other entity in the Internet, given a name
-identifying it.
+[EDITOR'S NOTE: need to make a terminology unification pass]
+
+# Query Interface: Mappings
+
+At its core, a naming service must provide a few basic functions for queriers,
+associating a subject of a query with information about that subject. The
+information available from a naming service is that which is necessary for a
+querier to establish a connection with some other entity in the Internet,
+given a name identifying it.
 
 ## Name to Address
 
@@ -77,9 +79,17 @@ As a name might be associated with more than one address, auxiliary information 
 
 [EDITOR'S NOTE: DNS doesn't do this, does it?]
 
+# Authority Interface: Additions, Changes, and Deletions
+
+The interface a naming service presents to a authority allows updates to the
+set of mappings that authority has authority over. Updates consist of
+additions of, changes to, and deletions of mappings. In the present DNS, this
+interface consists of the publication of a new zone file with an incremented
+version number, but other authority interfaces are possible.
+
 # Properties
 
-The following properties are desirable in any service providing the functions in {{functions}}.
+The following properties are desirable in any service providing the functions in {{query-interface-mappings}}.
 
 ## Authority
 
@@ -107,7 +117,10 @@ subject without that delegation being exposed to the querier.
 
 Authority at the top level of the namespace tree is delegated according to a process such that there is universal agreement throughout the Internet as to the subordinates of those delegations.
 
-[EDITOR'S NOTE: Today, this is the root zone. But note that this property does not necessarily imply, as with the present arrangement, a single authority at the root, only that the process by which the root is changed and operated leads to a universally consistent result.]
+[EDITOR'S NOTE: Today, this is the root zone. But note that this property does
+not necessarily imply a single authority at the root as with the present
+arrangement, only that the process by which the root is changed and operated
+leads to a universally consistent result.]
 
 ## Authenticity
 
@@ -143,9 +156,13 @@ subject of the query asserts that no association exists for the query.
 
 ### Dynamic Consistency
 
-When an authority makes changes to an association, every query for a given subject must give either the new valid result or a previously valid result, with known and predictable bounds on "how previously". Given that additions of, changes to, and deletions of associations may have different operational causes, different bounds may apply to different operations.
+When an authority makes changes to an association, every query for a given
+subject must give either the new valid result or a previously valid result,
+with known and predictable bounds on "how previously". Given that additions
+of, changes to, and deletions of associations may have different operational
+causes, different bounds may apply to different operations.
 
-[EDITOR'S NOTE: TTL. Additions faster than changes and deletions, which is
+[EDITOR'S NOTE: DNS: TTL. Additions faster than changes and deletions, which is
 probably the opposite of what you really want if you want name-service-based
 revocation of things.]
 
@@ -168,14 +185,18 @@ nodes providing the naming service, as well as to failures of links among
 them. Intentional prevention of successful, authenticated query by an
 adversary should be as hard as practical.
 
-### Lookup latency
+[EDITOR'S NOTE: DNS aims to provide this through explicit secondaries and XFER, as well as through operational practice: e.g. through ease of anycasting UDP services.]
+
+### Lookup Latency
 
 The time for the entire process of looking up a name and other necessary
 associated data from the point of view of the querier, amortized over all
 queries for all connections, should not significantly impact connection setup
 or resumption latency.
 
-### Bandwidth efficiency
+[EDITOR'S NOTE: DNS aims to provide this through being small and simple, and through the use of caching.]
+
+### Bandwidth Efficiency
 
 The bandwidth cost for looking up a name and other necessary associated data,
 from the point of view of the querier, amortized over all queries for all
@@ -189,6 +210,8 @@ application.
 It should be costly for an adversary to monitor the infrastructure in order to
 link specific queries to specific queriers.
 
+[EDITOR'S NOTE: DPRIVE is working toward this.]
+
 ### Explicit Tradeoff
 
 A querier should be able to indicate the desire for a benefit with respect to
@@ -198,6 +221,30 @@ one performance property by accepting a tradeoff in another, including:
 - Increased dynamic consistency for increased latency
 - Reduced request linkability for increased latency and/or reduced dynamic consistency
 - Reduced aggregate bandwidth use for increased latency and/or reduced dynamic consistency
+
+[EDITOR'S NOTE: DNS doesn't do this, and can't really: TTL gives you a tradeoff knob but it's in the hands of the authority]
+
+# Observations
+
+We have shown that most of the properties of our ideal name service are met,
+or could be met, by the present DNS protocol or extensions thereto. We note
+that there are further possibilities for the future evolution of naming
+services meeting these properties.
+
+[EDITOR'S NOTE: there are probably more than just this one, but this is the important one.]
+
+## Delegation and Redirection are Separate Operations
+
+Any system which can provide the authenticity properties in {{authenticity}}
+is freed from one of the design characteristics of the present domain name
+system: the requirement to bind a zone of authority to a specific set of
+authoritative servers. Since the authenticity of delegation must be a
+protected by a chain of signatures back to the root of authority, the location
+within the infrastructure where an authoritative mapping "lives" is no longer
+bound to a specific name server. While the present design of DNS does have its
+own scalability advantages, this implication allows a much larger design space
+to be explored for future name service work, as a delegation need not always
+be implemented via redirection to another name server.
 
 # IANA Considerations
 
@@ -209,6 +256,8 @@ This document has no actions for IANA
 
 # Acknowledgments
 
-Thanks to the Network Security Group at ETH Zurich, Andrew Sullivan, and
-Suzanne Woolf for the input and discussions leading to this document.
+This document is an output of a design work on naming services at the Network
+Security Group at ETH Zurich. Thanks to the group, including Daniele Asoni and
+Stephen Shirley, for discussions leading to this document. Thanks as well to
+Andrew Sullivan and Suzanne Woolf for input and feedback.
 

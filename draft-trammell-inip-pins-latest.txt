@@ -3,9 +3,9 @@
 
 
 Names and Identifiers Program                                B. Trammell
-Internet-Draft                                       ETH Zurich (D-INFK)
-Intended status: Informational                         February 12, 2016
-Expires: August 15, 2016
+Internet-Draft                                                ETH Zurich
+Intended status: Informational                         February 16, 2016
+Expires: August 19, 2016
 
 
                  Properties of an Ideal Naming Service
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 15, 2016.
+   This Internet-Draft will expire on August 19, 2016.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Trammell                 Expires August 15, 2016                [Page 1]
+Trammell                 Expires August 19, 2016                [Page 1]
 
 Internet-Draft                    PINS                     February 2016
 
@@ -66,58 +66,67 @@ Internet-Draft                    PINS                     February 2016
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Functions . . . . . . . . . . . . . . . . . . . . . . . . . .   2
-     2.1.  Name to Address . . . . . . . . . . . . . . . . . . . . .   3
-     2.2.  Address to Name . . . . . . . . . . . . . . . . . . . . .   3
-     2.3.  Name to Name  . . . . . . . . . . . . . . . . . . . . . .   3
-     2.4.  Name to Auxiliary Information . . . . . . . . . . . . . .   3
-     2.5.  Name/Address to Auxiliary Information . . . . . . . . . .   4
-   3.  Properties  . . . . . . . . . . . . . . . . . . . . . . . . .   4
-     3.1.  Authority . . . . . . . . . . . . . . . . . . . . . . . .   4
-       3.1.1.  Federation of Authority . . . . . . . . . . . . . . .   4
-       3.1.2.  Unity of Authority  . . . . . . . . . . . . . . . . .   4
-       3.1.3.  Transparency of Authority . . . . . . . . . . . . . .   4
-       3.1.4.  Consensus on Root of Authority  . . . . . . . . . . .   5
-     3.2.  Authenticity  . . . . . . . . . . . . . . . . . . . . . .   5
-       3.2.1.  Authenticity of Delegation  . . . . . . . . . . . . .   5
-       3.2.2.  Authenticity of Response  . . . . . . . . . . . . . .   5
-       3.2.3.  Authenticity of Negative Response . . . . . . . . . .   5
-     3.3.  Consistency . . . . . . . . . . . . . . . . . . . . . . .   6
-       3.3.1.  Dynamic Consistency . . . . . . . . . . . . . . . . .   6
-       3.3.2.  Explicit Inconsistency of Authoritative Results . . .   6
-     3.4.  Performance Properties  . . . . . . . . . . . . . . . . .   6
-       3.4.1.  Availability  . . . . . . . . . . . . . . . . . . . .   6
-       3.4.2.  Lookup latency  . . . . . . . . . . . . . . . . . . .   6
-       3.4.3.  Bandwidth efficiency  . . . . . . . . . . . . . . . .   7
-       3.4.4.  Query Linkability . . . . . . . . . . . . . . . . . .   7
-       3.4.5.  Explicit Tradeoff . . . . . . . . . . . . . . . . . .   7
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-   6.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   7
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   8
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Query Interface: Mappings . . . . . . . . . . . . . . . . . .   3
+     3.1.  Name to Address . . . . . . . . . . . . . . . . . . . . .   3
+     3.2.  Address to Name . . . . . . . . . . . . . . . . . . . . .   3
+     3.3.  Name to Name  . . . . . . . . . . . . . . . . . . . . . .   3
+     3.4.  Name to Auxiliary Information . . . . . . . . . . . . . .   4
+     3.5.  Name/Address to Auxiliary Information . . . . . . . . . .   4
+   4.  Authority Interface: Additions, Changes, and Deletions  . . .   4
+   5.  Properties  . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     5.1.  Authority . . . . . . . . . . . . . . . . . . . . . . . .   4
+       5.1.1.  Federation of Authority . . . . . . . . . . . . . . .   4
+       5.1.2.  Unity of Authority  . . . . . . . . . . . . . . . . .   5
+       5.1.3.  Transparency of Authority . . . . . . . . . . . . . .   5
+       5.1.4.  Consensus on Root of Authority  . . . . . . . . . . .   5
+     5.2.  Authenticity  . . . . . . . . . . . . . . . . . . . . . .   5
+       5.2.1.  Authenticity of Delegation  . . . . . . . . . . . . .   5
+       5.2.2.  Authenticity of Response  . . . . . . . . . . . . . .   6
+       5.2.3.  Authenticity of Negative Response . . . . . . . . . .   6
+     5.3.  Consistency . . . . . . . . . . . . . . . . . . . . . . .   6
+       5.3.1.  Dynamic Consistency . . . . . . . . . . . . . . . . .   6
+       5.3.2.  Explicit Inconsistency of Authoritative Results . . .   6
+     5.4.  Performance Properties  . . . . . . . . . . . . . . . . .   7
+       5.4.1.  Availability  . . . . . . . . . . . . . . . . . . . .   7
+       5.4.2.  Lookup Latency  . . . . . . . . . . . . . . . . . . .   7
+       5.4.3.  Bandwidth Efficiency  . . . . . . . . . . . . . . . .   7
+       5.4.4.  Query Linkability . . . . . . . . . . . . . . . . . .   7
+       5.4.5.  Explicit Tradeoff . . . . . . . . . . . . . . . . . .   8
+   6.  Observations  . . . . . . . . . . . . . . . . . . . . . . . .   8
+     6.1.  Delegation and Redirection are Separate Operations  . . .   8
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   9.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
+   10. Informative References  . . . . . . . . . . . . . . . . . . .   9
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   9
 
 1.  Introduction
 
-   [EDITOR'S NOTE: say nice things about DNS here]
-
-2.  Functions
-
-   At its core, a naming service must provide a few basic functions,
-   associating a subject of a query with information about that subject.
-   The information available from a naming service is that which is
+   [EDITOR'S NOTE: frontmatter: say nice things about DNS, point out
+   that it's one point in a design space, introduce exercise to define
+   what we mean by "good" with respect to this design space]
 
 
 
-
-Trammell                 Expires August 15, 2016                [Page 2]
+Trammell                 Expires August 19, 2016                [Page 2]
 
 Internet-Draft                    PINS                     February 2016
 
 
-   necessary for a querier to establish a connection with some other
-   entity in the Internet, given a name identifying it.
+2.  Terminology
 
-2.1.  Name to Address
+   [EDITOR'S NOTE: need to make a terminology unification pass]
+
+3.  Query Interface: Mappings
+
+   At its core, a naming service must provide a few basic functions for
+   queriers, associating a subject of a query with information about
+   that subject.  The information available from a naming service is
+   that which is necessary for a querier to establish a connection with
+   some other entity in the Internet, given a name identifying it.
+
+3.1.  Name to Address
 
    Given a name, the naming service returns a set of addresses
    associated with that name, if such an association exists, where the
@@ -130,7 +139,7 @@ Internet-Draft                    PINS                     February 2016
    [EDITOR'S NOTE: DNS does this for the Internet via IN A and IN AAAA
    records.]
 
-2.2.  Address to Name
+3.2.  Address to Name
 
    Given an address, the naming service returns a set of names
    associated with that address, if such an association exists, where
@@ -141,7 +150,7 @@ Internet-Draft                    PINS                     February 2016
    delegation on octet (IPv4) and nibble (IPv6) boundaries.  Cite
    workarounds.]
 
-2.3.  Name to Name
+3.3.  Name to Name
 
    Given a subject name, the naming service returns a set of object
    names associated with that name, if such an association exists, where
@@ -151,7 +160,17 @@ Internet-Draft                    PINS                     February 2016
    set case, and there are restrictions on the use of IN CNAME (with
    respect to NS and MX records, but not SRV?)].
 
-2.4.  Name to Auxiliary Information
+
+
+
+
+
+Trammell                 Expires August 19, 2016                [Page 3]
+
+Internet-Draft                    PINS                     February 2016
+
+
+3.4.  Name to Auxiliary Information
 
    Given a name, the naming service returns other auxiliary information
    associated with that name that is useful for establishing
@@ -160,17 +179,7 @@ Internet-Draft                    PINS                     February 2016
 
    [EDITOR'S NOTE: Most other RRTYPEs implement this pattern.]
 
-
-
-
-
-
-Trammell                 Expires August 15, 2016                [Page 3]
-
-Internet-Draft                    PINS                     February 2016
-
-
-2.5.  Name/Address to Auxiliary Information
+3.5.  Name/Address to Auxiliary Information
 
    As a name might be associated with more than one address, auxiliary
    information as above may be associated with a name/address pair, as
@@ -178,12 +187,21 @@ Internet-Draft                    PINS                     February 2016
 
    [EDITOR'S NOTE: DNS doesn't do this, does it?]
 
-3.  Properties
+4.  Authority Interface: Additions, Changes, and Deletions
+
+   The interface a naming service presents to a authority allows updates
+   to the set of mappings that authority has authority over.  Updates
+   consist of additions of, changes to, and deletions of mappings.  In
+   the present DNS, this interface consists of the publication of a new
+   zone file with an incremented version number, but other authority
+   interfaces are possible.
+
+5.  Properties
 
    The following properties are desirable in any service providing the
-   functions in Section 2.
+   functions in Section 3.
 
-3.1.  Authority
+5.1.  Authority
 
    Every association among names, addresses, and auxiliary data is
    subject to some authority: an entity which has the right to determine
@@ -191,7 +209,7 @@ Internet-Draft                    PINS                     February 2016
    namespace.  The following are properties of authorities in our ideal
    naming service:
 
-3.1.1.  Federation of Authority
+5.1.1.  Federation of Authority
 
    An authority can delegate some part of its namespace to some other
    subordinate authority.  This property allows the naming service to
@@ -199,32 +217,32 @@ Internet-Draft                    PINS                     February 2016
    namespace, where each delegation is itself identified by a subject at
    a given level in the namespace.
 
-3.1.2.  Unity of Authority
+
+
+
+
+Trammell                 Expires August 19, 2016                [Page 4]
+
+Internet-Draft                    PINS                     February 2016
+
+
+5.1.2.  Unity of Authority
 
    For a given subject, there is a single authority that has the right
    to determine the associations and/or delegations for that subject.
    The unitary authority for the root of the namespace tree may be
-   special, though; see Section 3.1.4.
+   special, though; see Section 5.1.4.
 
    [EDITOR'S NOTE: The unitary authority for a given name in the DNS is
    its registry.  The existence of registrars complicates this somewhat;
    see below.]
 
-3.1.3.  Transparency of Authority
+5.1.3.  Transparency of Authority
 
    A querier can determine the identity of the authority for a given
    association.  An authority cannot delegate its rights or
    responsibilities with respect to a subject without that delegation
    being exposed to the querier.
-
-
-
-
-
-Trammell                 Expires August 15, 2016                [Page 4]
-
-Internet-Draft                    PINS                     February 2016
-
 
    [EDITOR'S NOTE: It is very hard to enforce a restriction about
    delegations on the side (i.e.  "I make this assertion 'cause somebody
@@ -232,24 +250,23 @@ Internet-Draft                    PINS                     February 2016
    the recursive also do a WHOIS, making information about the registrar
    available for local policy decisions.]
 
-3.1.4.  Consensus on Root of Authority
+5.1.4.  Consensus on Root of Authority
 
    Authority at the top level of the namespace tree is delegated
    according to a process such that there is universal agreement
    throughout the Internet as to the subordinates of those delegations.
 
    [EDITOR'S NOTE: Today, this is the root zone.  But note that this
-   property does not necessarily imply, as with the present arrangement,
-   a single authority at the root, only that the process by which the
-   root is changed and operated leads to a universally consistent
-   result.]
+   property does not necessarily imply a single authority at the root as
+   with the present arrangement, only that the process by which the root
+   is changed and operated leads to a universally consistent result.]
 
-3.2.  Authenticity
+5.2.  Authenticity
 
    A querier must be able to verify that the answers that it gets from
    the naming service are authentic.
 
-3.2.1.  Authenticity of Delegation
+5.2.1.  Authenticity of Delegation
 
    Given a delegation from a superordinate to a subordinate authority, a
    querier must be able to verify that the superordinate authority
@@ -257,7 +274,15 @@ Internet-Draft                    PINS                     February 2016
 
    [EDITOR'S NOTE: DNSSEC does this.]
 
-3.2.2.  Authenticity of Response
+
+
+
+Trammell                 Expires August 19, 2016                [Page 5]
+
+Internet-Draft                    PINS                     February 2016
+
+
+5.2.2.  Authenticity of Response
 
    The authenticity of every answer must be verifiable by the querier,
    and the querier must be able to confirm that the answer is correct
@@ -265,7 +290,7 @@ Internet-Draft                    PINS                     February 2016
 
    [EDITOR'S NOTE: DNSSEC does this.]
 
-3.2.3.  Authenticity of Negative Response
+5.2.3.  Authenticity of Negative Response
 
    Some queries will yield no association, because no such association
    exists.  In this case, the querier must be able to confirm that the
@@ -275,18 +300,11 @@ Internet-Draft                    PINS                     February 2016
    [EDITOR'S NOTE: DNSSEC does this depending on how well you've set it
    up?]
 
-
-
-Trammell                 Expires August 15, 2016                [Page 5]
-
-Internet-Draft                    PINS                     February 2016
-
-
-3.3.  Consistency
+5.3.  Consistency
 
    [EDITOR'S NOTE: frontmatter here]
 
-3.3.1.  Dynamic Consistency
+5.3.1.  Dynamic Consistency
 
    When an authority makes changes to an association, every query for a
    given subject must give either the new valid result or a previously
@@ -295,11 +313,11 @@ Internet-Draft                    PINS                     February 2016
    may have different operational causes, different bounds may apply to
    different operations.
 
-   [EDITOR'S NOTE: TTL.  Additions faster than changes and deletions,
-   which is probably the opposite of what you really want if you want
-   name-service-based revocation of things.]
+   [EDITOR'S NOTE: DNS: TTL.  Additions faster than changes and
+   deletions, which is probably the opposite of what you really want if
+   you want name-service-based revocation of things.]
 
-3.3.2.  Explicit Inconsistency of Authoritative Results
+5.3.2.  Explicit Inconsistency of Authoritative Results
 
    Some techniques (e.g.  DNS CDN) require giving different answers to
    different queries, even in the absence of changes: the stable state
@@ -310,35 +328,44 @@ Internet-Draft                    PINS                     February 2016
    [EDITOR'S NOTE: DNS doesn't do this.  Not sure how useful this really
    is in a world where people deploy anycast TCP.]
 
-3.4.  Performance Properties
+
+
+
+
+
+Trammell                 Expires August 19, 2016                [Page 6]
+
+Internet-Draft                    PINS                     February 2016
+
+
+5.4.  Performance Properties
 
    [EDITOR'S NOTE: note that these have to do with name service
    dynamics, and that explicit tradeoffs here are possible and
    interesting.]
 
-3.4.1.  Availability
+5.4.1.  Availability
 
    The naming service as a while must be resilient to failures of
    individual nodes providing the naming service, as well as to failures
    of links among them.  Intentional prevention of successful,
    authenticated query by an adversary should be as hard as practical.
 
-3.4.2.  Lookup latency
+   [EDITOR'S NOTE: DNS aims to provide this through explicit secondaries
+   and XFER, as well as through operational practice: e.g. through ease
+   of anycasting UDP services.]
+
+5.4.2.  Lookup Latency
 
    The time for the entire process of looking up a name and other
    necessary associated data from the point of view of the querier,
    amortized over all queries for all connections, should not
    significantly impact connection setup or resumption latency.
 
+   [EDITOR'S NOTE: DNS aims to provide this through being small and
+   simple, and through the use of caching.]
 
-
-
-Trammell                 Expires August 15, 2016                [Page 6]
-
-Internet-Draft                    PINS                     February 2016
-
-
-3.4.3.  Bandwidth efficiency
+5.4.3.  Bandwidth Efficiency
 
    The bandwidth cost for looking up a name and other necessary
    associated data, from the point of view of the querier, amortized
@@ -350,12 +377,24 @@ Internet-Draft                    PINS                     February 2016
    acceptable.  Cite work on DNS traffic load to show that DNS has this
    property?]
 
-3.4.4.  Query Linkability
+5.4.4.  Query Linkability
 
    It should be costly for an adversary to monitor the infrastructure in
    order to link specific queries to specific queriers.
 
-3.4.5.  Explicit Tradeoff
+   [EDITOR'S NOTE: DPRIVE is working toward this.]
+
+
+
+
+
+
+Trammell                 Expires August 19, 2016                [Page 7]
+
+Internet-Draft                    PINS                     February 2016
+
+
+5.4.5.  Explicit Tradeoff
 
    A querier should be able to indicate the desire for a benefit with
    respect to one performance property by accepting a tradeoff in
@@ -371,33 +410,72 @@ Internet-Draft                    PINS                     February 2016
    o  Reduced aggregate bandwidth use for increased latency and/or
       reduced dynamic consistency
 
-4.  IANA Considerations
+   [EDITOR'S NOTE: DNS doesn't do this, and can't really: TTL gives you
+   a tradeoff knob but it's in the hands of the authority]
 
-   This document has no actions for IANA
+6.  Observations
 
-5.  Security Considerations
+   We have shown that most of the properties of our ideal name service
+   are met, or could be met, by the present DNS protocol or extensions
+   thereto.  We note that there are further possibilities for the future
+   evolution of naming services meeting these properties.
 
-   [EDITOR'S NOTE: todo]
+   [EDITOR'S NOTE: there are probably more than just this one, but this
+   is the important one.]
 
-6.  Acknowledgments
+6.1.  Delegation and Redirection are Separate Operations
 
-   Thanks to the Network Security Group at ETH Zurich, Andrew Sullivan,
-   and Suzanne Woolf for the input and discussions leading to this
-   document.
+   Any system which can provide the authenticity properties in
+   Section 5.2 is freed from one of the design characteristics of the
+   present domain name system: the requirement to bind a zone of
+   authority to a specific set of authoritative servers.  Since the
+   authenticity of delegation must be a protected by a chain of
+   signatures back to the root of authority, the location within the
+   infrastructure where an authoritative mapping "lives" is no longer
+   bound to a specific name server.  While the present design of DNS
+   does have its own scalability advantages, this implication allows a
+   much larger design space to be explored for future name service work,
+   as a delegation need not always be implemented via redirection to
+   another name server.
 
 
 
 
 
-Trammell                 Expires August 15, 2016                [Page 7]
+
+
+
+Trammell                 Expires August 19, 2016                [Page 8]
 
 Internet-Draft                    PINS                     February 2016
 
 
+7.  IANA Considerations
+
+   This document has no actions for IANA
+
+8.  Security Considerations
+
+   [EDITOR'S NOTE: todo]
+
+9.  Acknowledgments
+
+   This document is an output of a design work on naming services at the
+   Network Security Group at ETH Zurich.  Thanks to the group, including
+   Daniele Asoni and Stephen Shirley, for discussions leading to this
+   document.  Thanks as well to Andrew Sullivan and Suzanne Woolf for
+   input and feedback.
+
+10.  Informative References
+
+   [RFC1035]  Mockapetris, P., "Domain names - implementation and
+              specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
+              November 1987, <http://www.rfc-editor.org/info/rfc1035>.
+
 Author's Address
 
    Brian Trammell
-   ETH Zurich (D-INFK)
+   ETH Zurich
    Universitaetstrasse 6
    Zurich  8092
    Switzerland
@@ -423,26 +501,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Trammell                 Expires August 15, 2016                [Page 8]
+Trammell                 Expires August 19, 2016                [Page 9]

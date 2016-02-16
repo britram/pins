@@ -35,41 +35,72 @@ This document specifies a set of necessary functions and desirable properties of
 
 # Introduction
 
-[EDITOR'S NOTE: frontmatter: say nice things about DNS, point out that it's one point in a design space, introduce exercise to define what we mean by "good" with respect to this design space]
+The Internet's Domain Name System (DNS) {{RFC1035}} is an excellent
+illustration of the advantages of the decentralized architecture that have
+made the Internet able to scale to its present size. However, the choices made
+in the evolution of the DNS since its initial design are only one path through
+the design space of Internet-scale naming services. Many other naming services
+have been proposed, though none has been remotely as successful for general-
+purpose use in the Internet.
+
+This document returns to first principles, to determine the dimensions of the design space of desirable properties of an Internet-scale naming service. It is a work in progress, intended to start a discussion within the IAB's Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs.
+
+{{query-interface}} and {{authority-interface}} define the set of operations a naming service should provide for queriers and authorities, {{properties}} defines a set of desirable properties of the provision of this service, and {{observations}} examines implications of these properties.
 
 # Terminology
 
+The following capitalized terms are defined and used in this document:
+
+- Subject: A name, address, or name-address pair about which the naming service can answer queries
+
+- Association: A mapping between a Subject and information about that Subject
+
+- Authority: An entity that has the right to determine which Associations exist within its namespace
+
+- Delegation: An Association that indicates that an Authority has given the right to make assertions about the Associations within the part of a namespace identified by a Subject to a subordinate Authority.
+
 [EDITOR'S NOTE: need to make a terminology unification pass]
 
-# Query Interface: Mappings
+# Query Interface
 
 At its core, a naming service must provide a few basic functions for queriers,
-associating a subject of a query with information about that subject. The
+associating a Subject of a query with information about that subject. The
 information available from a naming service is that which is necessary for a
 querier to establish a connection with some other entity in the Internet,
 given a name identifying it.
 
 ## Name to Address
 
-Given a name, the naming service returns a set of addresses associated with that name, if such an association exists, where the association is determined by the authority for that name. Names may be associated with addresses in one or more address families (e.g. IP version 4, IP version 6). A querier may specify which address families it is interested in receiving addresses for, and the naming system treats all address families equally.
+Given a Subject name, the naming service returns a set of addresses associated
+with that name, if such an association exists, where the association is
+determined by the authority for that name. Names may be associated with
+addresses in one or more address families (e.g. IP version 4, IP version 6). A
+querier may specify which address families it is interested in receiving
+addresses for, and the naming system treats all address families equally.
 
 [EDITOR'S NOTE: DNS does this for the Internet via IN A and IN AAAA records.]
 
 ## Address to Name
 
-Given an address, the naming service returns a set of names associated with that address, if such an association exists, where the association is determined by the authority for that address. 
+Given an Subject address, the naming service returns a set of names associated
+with that address, if such an association exists, where the association is
+determined by the authority for that address.
 
 [EDITOR'S NOTE: DNS does this for the Internet with IN PTR records within the in-addr.arpa. and ip6.arpa. zones. Note the limitation of delegation on octet (IPv4) and nibble (IPv6) boundaries. Cite workarounds.]
 
 ## Name to Name
 
-Given a subject name, the naming service returns a set of object names associated with that name, if such an association exists, where the association is determined by the authority for the subject name.
+Given a Subject name, the naming service returns a set of object names
+associated with that name, if such an association exists, where the
+association is determined by the authority for the subject name.
 
 [EDITOR'S NOTE: DNS does this via IN CNAME, but doesn't handle the set case, and there are restrictions on the use of IN CNAME (with respect to NS and MX records, but not SRV?)].
 
 ## Name to Auxiliary Information
 
-Given a name, the naming service returns other auxiliary information associated with that name that is useful for establishing communication over the Internet with the entities associated with that name.
+Given a Subject name, the naming service returns other auxiliary information
+associated with that name that is useful for establishing communication over
+the Internet with the entities associated with that name.
 
 [EDITOR'S NOTE: Most other RRTYPEs implement this pattern.]
 
@@ -79,43 +110,53 @@ As a name might be associated with more than one address, auxiliary information 
 
 [EDITOR'S NOTE: DNS doesn't do this, does it?]
 
-# Authority Interface: Additions, Changes, and Deletions
+# Authority Interface
 
-The interface a naming service presents to a authority allows updates to the
-set of mappings that authority has authority over. Updates consist of
-additions of, changes to, and deletions of mappings. In the present DNS, this
-interface consists of the publication of a new zone file with an incremented
-version number, but other authority interfaces are possible.
+The query interface is not the only interface to the naming service: the
+interface a naming service presents to an Authority allows updates to the set
+of Associations and Delegations in that Authority's namespace. Updates consist
+of additions of, changes to, and deletions of Associations and Delegations. In
+the present DNS, this interface consists of the publication of a new zone file
+with an incremented version number, but other authority interfaces are
+possible.
 
 # Properties
 
-The following properties are desirable in any service providing the functions in {{query-interface-mappings}}.
+The following properties are desirable in a naming service providing the functions in {{query-interface}} and {{authority-interface}}.
 
 ## Authority
 
-Every association among names, addresses, and auxiliary data is subject to some authority: an entity which has the right to determine which associations between subjects and objects exist in its namespace. The following are properties of authorities in our ideal naming service:
+Every Association among names, addresses, and auxiliary data is subject to some Authority: an entity which has the right to determine which Associations and Subjects exist in its namespace. The following are properties of Authorities in our ideal naming service:
 
 ### Federation of Authority
 
-An authority can delegate some part of its namespace to some other subordinate authority. This property allows the naming service to scale to the size of the Internet, and leads to a tree-structured namespace, where each delegation is itself identified by a subject at a given level in the namespace.
+An Authority can delegate some part of its namespace to some other subordinate
+Authority. This property allows the naming service to scale to the size of the
+Internet, and leads to a tree-structured namespace, where each Delegation is
+itself identified with a Subject at a given level in the namespace.
 
 ### Unity of Authority
 
-For a given subject, there is a single authority that has the right to determine the associations and/or delegations for that subject. The unitary authority for the root of the namespace tree may be special, though; see {{consensus-on-root-of-authority}}.
+For a given Subject, there is a single Authority that has the right to
+determine the Associations and/or Delegations for that subject. The unitary
+authority for the root of the namespace tree may be special, though; see
+{{consensus-on-root-of-authority}}.
 
 [EDITOR'S NOTE: The unitary authority for a given name in the DNS is its registry. The existence of registrars complicates this somewhat; see below.]
 
 ### Transparency of Authority
 
-A querier can determine the identity of the authority for a given association.
-An authority cannot delegate its rights or responsibilities with respect to a
-subject without that delegation being exposed to the querier.
+A querier can determine the identity of the Authority for a given Association.
+An Authority cannot delegate its rights or responsibilities with respect to a
+subject without that Delegation being exposed to the querier.
 
 [EDITOR'S NOTE: It is very hard to enforce a restriction about delegations on the side (i.e. "I make this assertion 'cause somebody paid me to"). One could implement this in the current DNS by having the recursive also do a WHOIS, making information about the registrar available for local policy decisions.]
 
 ### Consensus on Root of Authority
 
-Authority at the top level of the namespace tree is delegated according to a process such that there is universal agreement throughout the Internet as to the subordinates of those delegations.
+Authority at the top level of the namespace tree is delegated according to a
+process such that there is universal agreement throughout the Internet as to
+the subordinates of those Delegations.
 
 [EDITOR'S NOTE: Today, this is the root zone. But note that this property does
 not necessarily imply a single authority at the root as with the present
@@ -124,29 +165,30 @@ leads to a universally consistent result.]
 
 ## Authenticity
 
-A querier must be able to verify that the answers that it gets from the naming service are authentic.
+A querier must be able to verify that the answers that it gets from the naming
+service are authentic.
 
 ### Authenticity of Delegation
 
-Given a delegation from a superordinate to a subordinate authority, a querier
-must be able to verify that the superordinate authority authorized the
-delegation.
+Given a Delegation from a superordinate to a subordinate Authority, a querier
+must be able to verify that the superordinate Authority authorized the
+Delegation.
 
 [EDITOR'S NOTE: DNSSEC does this.]
 
 ### Authenticity of Response
 
 The authenticity of every answer must be verifiable by the querier, and the
-querier must be able to confirm that the answer is correct according to the
-authority for the subject of the query.
+querier must be able to confirm that the Association returned in the answer is
+correct according to the Authority for the Subject of the query.
 
 [EDITOR'S NOTE: DNSSEC does this.]
 
 ### Authenticity of Negative Response
 
-Some queries will yield no association, because no such association exists. In
-this case, the querier must be able to confirm that the authority for the
-subject of the query asserts that no association exists for the query.
+Some queries will yield no answer, because no such Association exists. In
+this case, the querier must be able to confirm that the Authority for the
+Subject of the query asserts this lack of Association.
 
 [EDITOR'S NOTE: DNSSEC does this depending on how well you've set it up?]
 
@@ -156,8 +198,8 @@ subject of the query asserts that no association exists for the query.
 
 ### Dynamic Consistency
 
-When an authority makes changes to an association, every query for a given
-subject must give either the new valid result or a previously valid result,
+When an Authority makes changes to an Association, every query for a given
+Subject must give either the new valid result or a previously valid result,
 with known and predictable bounds on "how previously". Given that additions
 of, changes to, and deletions of associations may have different operational
 causes, different bounds may apply to different operations.
@@ -198,10 +240,10 @@ or resumption latency.
 
 ### Bandwidth Efficiency
 
-The bandwidth cost for looking up a name and other necessary associated data,
-from the point of view of the querier, amortized over all queries for all
-connections, should significantly impact total bandwidth demand for an
-application.
+The bandwidth cost for looking up a name and other associated data necessary
+for establishing communication with a given Subject, from the point of view of
+the querier, amortized over all queries for all connections, should
+significantly impact total bandwidth demand for an application.
 
 [EDITOR'S NOTE: What we mean here is that approaches that flood all name mapping updates to the entire Internet are probably not acceptable. Cite work on DNS traffic load to show that DNS has this property?]
 
@@ -227,9 +269,9 @@ one performance property by accepting a tradeoff in another, including:
 # Observations
 
 We have shown that most of the properties of our ideal name service are met,
-or could be met, by the present DNS protocol or extensions thereto. We note
-that there are further possibilities for the future evolution of naming
-services meeting these properties.
+or could be met, by the present DNS protocol or extensions thereto. [EDITOR'S
+NOTE: not yet, not really.] We note that there are further possibilities for
+the future evolution of naming services meeting these properties.
 
 [EDITOR'S NOTE: there are probably more than just this one, but this is the important one.]
 
@@ -243,7 +285,7 @@ protected by a chain of signatures back to the root of authority, the location
 within the infrastructure where an authoritative mapping "lives" is no longer
 bound to a specific name server. While the present design of DNS does have its
 own scalability advantages, this implication allows a much larger design space
-to be explored for future name service work, as a delegation need not always
+to be explored for future name service work, as a Delegation need not always
 be implemented via redirection to another name server.
 
 # IANA Considerations

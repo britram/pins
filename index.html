@@ -270,13 +270,13 @@ li, p {
   <link href="#rfc.toc" rel="Contents"/>
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
 <link href="#rfc.section.2" rel="Chapter" title="2 Terminology"/>
-<link href="#rfc.section.3" rel="Chapter" title="3 Query Interface: Mappings"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Query Interface"/>
 <link href="#rfc.section.3.1" rel="Chapter" title="3.1 Name to Address"/>
 <link href="#rfc.section.3.2" rel="Chapter" title="3.2 Address to Name"/>
 <link href="#rfc.section.3.3" rel="Chapter" title="3.3 Name to Name"/>
 <link href="#rfc.section.3.4" rel="Chapter" title="3.4 Name to Auxiliary Information"/>
 <link href="#rfc.section.3.5" rel="Chapter" title="3.5 Name/Address to Auxiliary Information"/>
-<link href="#rfc.section.4" rel="Chapter" title="4 Authority Interface: Additions, Changes, and Deletions"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Authority Interface"/>
 <link href="#rfc.section.5" rel="Chapter" title="5 Properties"/>
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Authority"/>
 <link href="#rfc.section.5.1.1" rel="Chapter" title="5.1.1 Federation of Authority"/>
@@ -369,13 +369,13 @@ li, p {
 
   	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
 <li>2.   <a href="#rfc.section.2">Terminology</a></li>
-<li>3.   <a href="#rfc.section.3">Query Interface: Mappings</a></li>
+<li>3.   <a href="#rfc.section.3">Query Interface</a></li>
 <ul><li>3.1.   <a href="#rfc.section.3.1">Name to Address</a></li>
 <li>3.2.   <a href="#rfc.section.3.2">Address to Name</a></li>
 <li>3.3.   <a href="#rfc.section.3.3">Name to Name</a></li>
 <li>3.4.   <a href="#rfc.section.3.4">Name to Auxiliary Information</a></li>
 <li>3.5.   <a href="#rfc.section.3.5">Name/Address to Auxiliary Information</a></li>
-</ul><li>4.   <a href="#rfc.section.4">Authority Interface: Additions, Changes, and Deletions</a></li>
+</ul><li>4.   <a href="#rfc.section.4">Authority Interface</a></li>
 <li>5.   <a href="#rfc.section.5">Properties</a></li>
 <ul><li>5.1.   <a href="#rfc.section.5.1">Authority</a></li>
 <ul><li>5.1.1.   <a href="#rfc.section.5.1.1">Federation of Authority</a></li>
@@ -407,58 +407,69 @@ li, p {
   </ul>
 
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
-<p id="rfc.section.1.p.1">[EDITOR&#8217;S NOTE: frontmatter: say nice things about DNS, point out that it&#8217;s one point in a design space, introduce exercise to define what we mean by &#8220;good&#8221; with respect to this design space]</p>
+<p id="rfc.section.1.p.1">The Internet&#8217;s Domain Name System (DNS) <a href="#RFC1035">[RFC1035]</a> is an excellent illustration of the advantages of the decentralized architecture that have made the Internet able to scale to its present size. However, the choices made in the evolution of the DNS since its initial design are only one path through the design space of Internet-scale naming services. Many other naming services have been proposed, though none has been remotely as successful for general- purpose use in the Internet.</p>
+<p id="rfc.section.1.p.2">This document returns to first principles, to determine the dimensions of the design space of desirable properties of an Internet-scale naming service. It is a work in progress, intended to start a discussion within the IAB&#8217;s Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs.</p>
+<p><a href="#query-interface">Section 3</a> and <a href="#authority-interface">Section 4</a> define the set of operations a naming service should provide for queriers and authorities, <a href="#properties">Section 5</a> defines a set of desirable properties of the provision of this service, and <a href="#observations">Section 6</a> examines implications of these properties.</p>
 <h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#terminology" id="terminology">Terminology</a></h1>
-<p id="rfc.section.2.p.1">[EDITOR&#8217;S NOTE: need to make a terminology unification pass]</p>
-<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#query-interface-mappings" id="query-interface-mappings">Query Interface: Mappings</a></h1>
-<p id="rfc.section.3.p.1">At its core, a naming service must provide a few basic functions for queriers, associating a subject of a query with information about that subject. The information available from a naming service is that which is necessary for a querier to establish a connection with some other entity in the Internet, given a name identifying it.</p>
+<p id="rfc.section.2.p.1">The following capitalized terms are defined and used in this document:</p>
+<p/>
+
+<ul>
+  <li>Subject: A name, address, or name-address pair about which the naming service can answer queries</li>
+  <li>Association: A mapping between a Subject and information about that Subject</li>
+  <li>Authority: An entity that has the right to determine which Associations exist within its namespace</li>
+  <li>Delegation: An Association that indicates that an Authority has given the right to make assertions about the Associations within the part of a namespace identified by a Subject to a subordinate Authority.</li>
+</ul>
+<p id="rfc.section.2.p.3">[EDITOR&#8217;S NOTE: need to make a terminology unification pass]</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#query-interface" id="query-interface">Query Interface</a></h1>
+<p id="rfc.section.3.p.1">At its core, a naming service must provide a few basic functions for queriers, associating a Subject of a query with information about that subject. The information available from a naming service is that which is necessary for a querier to establish a connection with some other entity in the Internet, given a name identifying it.</p>
 <h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#name-to-address" id="name-to-address">Name to Address</a></h1>
-<p id="rfc.section.3.1.p.1">Given a name, the naming service returns a set of addresses associated with that name, if such an association exists, where the association is determined by the authority for that name. Names may be associated with addresses in one or more address families (e.g. IP version 4, IP version 6). A querier may specify which address families it is interested in receiving addresses for, and the naming system treats all address families equally.</p>
+<p id="rfc.section.3.1.p.1">Given a Subject name, the naming service returns a set of addresses associated with that name, if such an association exists, where the association is determined by the authority for that name. Names may be associated with addresses in one or more address families (e.g. IP version 4, IP version 6). A querier may specify which address families it is interested in receiving addresses for, and the naming system treats all address families equally.</p>
 <p id="rfc.section.3.1.p.2">[EDITOR&#8217;S NOTE: DNS does this for the Internet via IN A and IN AAAA records.]</p>
 <h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#address-to-name" id="address-to-name">Address to Name</a></h1>
-<p id="rfc.section.3.2.p.1">Given an address, the naming service returns a set of names associated with that address, if such an association exists, where the association is determined by the authority for that address.</p>
+<p id="rfc.section.3.2.p.1">Given an Subject address, the naming service returns a set of names associated with that address, if such an association exists, where the association is determined by the authority for that address.</p>
 <p id="rfc.section.3.2.p.2">[EDITOR&#8217;S NOTE: DNS does this for the Internet with IN PTR records within the in-addr.arpa. and ip6.arpa. zones. Note the limitation of delegation on octet (IPv4) and nibble (IPv6) boundaries. Cite workarounds.]</p>
 <h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#name-to-name" id="name-to-name">Name to Name</a></h1>
-<p id="rfc.section.3.3.p.1">Given a subject name, the naming service returns a set of object names associated with that name, if such an association exists, where the association is determined by the authority for the subject name.</p>
+<p id="rfc.section.3.3.p.1">Given a Subject name, the naming service returns a set of object names associated with that name, if such an association exists, where the association is determined by the authority for the subject name.</p>
 <p id="rfc.section.3.3.p.2">[EDITOR&#8217;S NOTE: DNS does this via IN CNAME, but doesn&#8217;t handle the set case, and there are restrictions on the use of IN CNAME (with respect to NS and MX records, but not SRV?)].</p>
 <h1 id="rfc.section.3.4"><a href="#rfc.section.3.4">3.4.</a> <a href="#name-to-auxiliary-information" id="name-to-auxiliary-information">Name to Auxiliary Information</a></h1>
-<p id="rfc.section.3.4.p.1">Given a name, the naming service returns other auxiliary information associated with that name that is useful for establishing communication over the Internet with the entities associated with that name.</p>
+<p id="rfc.section.3.4.p.1">Given a Subject name, the naming service returns other auxiliary information associated with that name that is useful for establishing communication over the Internet with the entities associated with that name.</p>
 <p id="rfc.section.3.4.p.2">[EDITOR&#8217;S NOTE: Most other RRTYPEs implement this pattern.]</p>
 <h1 id="rfc.section.3.5"><a href="#rfc.section.3.5">3.5.</a> <a href="#nameaddress-to-auxiliary-information" id="nameaddress-to-auxiliary-information">Name/Address to Auxiliary Information</a></h1>
 <p id="rfc.section.3.5.p.1">As a name might be associated with more than one address, auxiliary information as above may be associated with a name/address pair, as opposed to just with a name.</p>
 <p id="rfc.section.3.5.p.2">[EDITOR&#8217;S NOTE: DNS doesn&#8217;t do this, does it?]</p>
-<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#authority-interface-additions-changes-and-deletions" id="authority-interface-additions-changes-and-deletions">Authority Interface: Additions, Changes, and Deletions</a></h1>
-<p id="rfc.section.4.p.1">The interface a naming service presents to a authority allows updates to the set of mappings that authority has authority over. Updates consist of additions of, changes to, and deletions of mappings. In the present DNS, this interface consists of the publication of a new zone file with an incremented version number, but other authority interfaces are possible.</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#authority-interface" id="authority-interface">Authority Interface</a></h1>
+<p id="rfc.section.4.p.1">The query interface is not the only interface to the naming service: the interface a naming service presents to an Authority allows updates to the set of Associations and Delegations in that Authority&#8217;s namespace. Updates consist of additions of, changes to, and deletions of Associations and Delegations. In the present DNS, this interface consists of the publication of a new zone file with an incremented version number, but other authority interfaces are possible.</p>
 <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#properties" id="properties">Properties</a></h1>
-<p id="rfc.section.5.p.1">The following properties are desirable in any service providing the functions in <a href="#query-interface-mappings">Section 3</a>.</p>
+<p id="rfc.section.5.p.1">The following properties are desirable in a naming service providing the functions in <a href="#query-interface">Section 3</a> and <a href="#authority-interface">Section 4</a>.</p>
 <h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#authority" id="authority">Authority</a></h1>
-<p id="rfc.section.5.1.p.1">Every association among names, addresses, and auxiliary data is subject to some authority: an entity which has the right to determine which associations between subjects and objects exist in its namespace. The following are properties of authorities in our ideal naming service:</p>
+<p id="rfc.section.5.1.p.1">Every Association among names, addresses, and auxiliary data is subject to some Authority: an entity which has the right to determine which Associations and Subjects exist in its namespace. The following are properties of Authorities in our ideal naming service:</p>
 <h1 id="rfc.section.5.1.1"><a href="#rfc.section.5.1.1">5.1.1.</a> <a href="#federation-of-authority" id="federation-of-authority">Federation of Authority</a></h1>
-<p id="rfc.section.5.1.1.p.1">An authority can delegate some part of its namespace to some other subordinate authority. This property allows the naming service to scale to the size of the Internet, and leads to a tree-structured namespace, where each delegation is itself identified by a subject at a given level in the namespace.</p>
+<p id="rfc.section.5.1.1.p.1">An Authority can delegate some part of its namespace to some other subordinate Authority. This property allows the naming service to scale to the size of the Internet, and leads to a tree-structured namespace, where each Delegation is itself identified with a Subject at a given level in the namespace.</p>
 <h1 id="rfc.section.5.1.2"><a href="#rfc.section.5.1.2">5.1.2.</a> <a href="#unity-of-authority" id="unity-of-authority">Unity of Authority</a></h1>
-<p id="rfc.section.5.1.2.p.1">For a given subject, there is a single authority that has the right to determine the associations and/or delegations for that subject. The unitary authority for the root of the namespace tree may be special, though; see <a href="#consensus-on-root-of-authority">Section 5.1.4</a>.</p>
+<p id="rfc.section.5.1.2.p.1">For a given Subject, there is a single Authority that has the right to determine the Associations and/or Delegations for that subject. The unitary authority for the root of the namespace tree may be special, though; see <a href="#consensus-on-root-of-authority">Section 5.1.4</a>.</p>
 <p id="rfc.section.5.1.2.p.2">[EDITOR&#8217;S NOTE: The unitary authority for a given name in the DNS is its registry. The existence of registrars complicates this somewhat; see below.]</p>
 <h1 id="rfc.section.5.1.3"><a href="#rfc.section.5.1.3">5.1.3.</a> <a href="#transparency-of-authority" id="transparency-of-authority">Transparency of Authority</a></h1>
-<p id="rfc.section.5.1.3.p.1">A querier can determine the identity of the authority for a given association.  An authority cannot delegate its rights or responsibilities with respect to a subject without that delegation being exposed to the querier.</p>
+<p id="rfc.section.5.1.3.p.1">A querier can determine the identity of the Authority for a given Association.  An Authority cannot delegate its rights or responsibilities with respect to a subject without that Delegation being exposed to the querier.</p>
 <p id="rfc.section.5.1.3.p.2">[EDITOR&#8217;S NOTE: It is very hard to enforce a restriction about delegations on the side (i.e. &#8220;I make this assertion &#8216;cause somebody paid me to&#8221;). One could implement this in the current DNS by having the recursive also do a WHOIS, making information about the registrar available for local policy decisions.]</p>
 <h1 id="rfc.section.5.1.4"><a href="#rfc.section.5.1.4">5.1.4.</a> <a href="#consensus-on-root-of-authority" id="consensus-on-root-of-authority">Consensus on Root of Authority</a></h1>
-<p id="rfc.section.5.1.4.p.1">Authority at the top level of the namespace tree is delegated according to a process such that there is universal agreement throughout the Internet as to the subordinates of those delegations.</p>
+<p id="rfc.section.5.1.4.p.1">Authority at the top level of the namespace tree is delegated according to a process such that there is universal agreement throughout the Internet as to the subordinates of those Delegations.</p>
 <p id="rfc.section.5.1.4.p.2">[EDITOR&#8217;S NOTE: Today, this is the root zone. But note that this property does not necessarily imply a single authority at the root as with the present arrangement, only that the process by which the root is changed and operated leads to a universally consistent result.]</p>
 <h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#authenticity" id="authenticity">Authenticity</a></h1>
 <p id="rfc.section.5.2.p.1">A querier must be able to verify that the answers that it gets from the naming service are authentic.</p>
 <h1 id="rfc.section.5.2.1"><a href="#rfc.section.5.2.1">5.2.1.</a> <a href="#authenticity-of-delegation" id="authenticity-of-delegation">Authenticity of Delegation</a></h1>
-<p id="rfc.section.5.2.1.p.1">Given a delegation from a superordinate to a subordinate authority, a querier must be able to verify that the superordinate authority authorized the delegation.</p>
+<p id="rfc.section.5.2.1.p.1">Given a Delegation from a superordinate to a subordinate Authority, a querier must be able to verify that the superordinate Authority authorized the Delegation.</p>
 <p id="rfc.section.5.2.1.p.2">[EDITOR&#8217;S NOTE: DNSSEC does this.]</p>
 <h1 id="rfc.section.5.2.2"><a href="#rfc.section.5.2.2">5.2.2.</a> <a href="#authenticity-of-response" id="authenticity-of-response">Authenticity of Response</a></h1>
-<p id="rfc.section.5.2.2.p.1">The authenticity of every answer must be verifiable by the querier, and the querier must be able to confirm that the answer is correct according to the authority for the subject of the query.</p>
+<p id="rfc.section.5.2.2.p.1">The authenticity of every answer must be verifiable by the querier, and the querier must be able to confirm that the Association returned in the answer is correct according to the Authority for the Subject of the query.</p>
 <p id="rfc.section.5.2.2.p.2">[EDITOR&#8217;S NOTE: DNSSEC does this.]</p>
 <h1 id="rfc.section.5.2.3"><a href="#rfc.section.5.2.3">5.2.3.</a> <a href="#authenticity-of-negative-response" id="authenticity-of-negative-response">Authenticity of Negative Response</a></h1>
-<p id="rfc.section.5.2.3.p.1">Some queries will yield no association, because no such association exists. In this case, the querier must be able to confirm that the authority for the subject of the query asserts that no association exists for the query.</p>
+<p id="rfc.section.5.2.3.p.1">Some queries will yield no answer, because no such Association exists. In this case, the querier must be able to confirm that the Authority for the Subject of the query asserts this lack of Association.</p>
 <p id="rfc.section.5.2.3.p.2">[EDITOR&#8217;S NOTE: DNSSEC does this depending on how well you&#8217;ve set it up?]</p>
 <h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#consistency" id="consistency">Consistency</a></h1>
 <p id="rfc.section.5.3.p.1">[EDITOR&#8217;S NOTE: frontmatter here]</p>
 <h1 id="rfc.section.5.3.1"><a href="#rfc.section.5.3.1">5.3.1.</a> <a href="#dynamic-consistency" id="dynamic-consistency">Dynamic Consistency</a></h1>
-<p id="rfc.section.5.3.1.p.1">When an authority makes changes to an association, every query for a given subject must give either the new valid result or a previously valid result, with known and predictable bounds on &#8220;how previously&#8221;. Given that additions of, changes to, and deletions of associations may have different operational causes, different bounds may apply to different operations.</p>
+<p id="rfc.section.5.3.1.p.1">When an Authority makes changes to an Association, every query for a given Subject must give either the new valid result or a previously valid result, with known and predictable bounds on &#8220;how previously&#8221;. Given that additions of, changes to, and deletions of associations may have different operational causes, different bounds may apply to different operations.</p>
 <p id="rfc.section.5.3.1.p.2">[EDITOR&#8217;S NOTE: DNS: TTL. Additions faster than changes and deletions, which is probably the opposite of what you really want if you want name-service-based revocation of things.]</p>
 <h1 id="rfc.section.5.3.2"><a href="#rfc.section.5.3.2">5.3.2.</a> <a href="#explicit-inconsistency-of-authoritative-results" id="explicit-inconsistency-of-authoritative-results">Explicit Inconsistency of Authoritative Results</a></h1>
 <p id="rfc.section.5.3.2.p.1">Some techniques (e.g. DNS CDN) require giving different answers to different queries, even in the absence of changes: the stable state of the namespace is inconsistent. This inconsistency should be explicit: a querier should be able to know that an answer might be dependent on its identity, network location, or other factors.</p>
@@ -472,7 +483,7 @@ li, p {
 <p id="rfc.section.5.4.2.p.1">The time for the entire process of looking up a name and other necessary associated data from the point of view of the querier, amortized over all queries for all connections, should not significantly impact connection setup or resumption latency.</p>
 <p id="rfc.section.5.4.2.p.2">[EDITOR&#8217;S NOTE: DNS aims to provide this through being small and simple, and through the use of caching.]</p>
 <h1 id="rfc.section.5.4.3"><a href="#rfc.section.5.4.3">5.4.3.</a> <a href="#bandwidth-efficiency" id="bandwidth-efficiency">Bandwidth Efficiency</a></h1>
-<p id="rfc.section.5.4.3.p.1">The bandwidth cost for looking up a name and other necessary associated data, from the point of view of the querier, amortized over all queries for all connections, should significantly impact total bandwidth demand for an application.</p>
+<p id="rfc.section.5.4.3.p.1">The bandwidth cost for looking up a name and other associated data necessary for establishing communication with a given Subject, from the point of view of the querier, amortized over all queries for all connections, should significantly impact total bandwidth demand for an application.</p>
 <p id="rfc.section.5.4.3.p.2">[EDITOR&#8217;S NOTE: What we mean here is that approaches that flood all name mapping updates to the entire Internet are probably not acceptable. Cite work on DNS traffic load to show that DNS has this property?]</p>
 <h1 id="rfc.section.5.4.4"><a href="#rfc.section.5.4.4">5.4.4.</a> <a href="#query-linkability" id="query-linkability">Query Linkability</a></h1>
 <p id="rfc.section.5.4.4.p.1">It should be costly for an adversary to monitor the infrastructure in order to link specific queries to specific queriers.</p>
@@ -489,10 +500,10 @@ li, p {
 </ul>
 <p id="rfc.section.5.4.5.p.3">[EDITOR&#8217;S NOTE: DNS doesn&#8217;t do this, and can&#8217;t really: TTL gives you a tradeoff knob but it&#8217;s in the hands of the authority]</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#observations" id="observations">Observations</a></h1>
-<p id="rfc.section.6.p.1">We have shown that most of the properties of our ideal name service are met, or could be met, by the present DNS protocol or extensions thereto. We note that there are further possibilities for the future evolution of naming services meeting these properties.</p>
+<p id="rfc.section.6.p.1">We have shown that most of the properties of our ideal name service are met, or could be met, by the present DNS protocol or extensions thereto. [EDITOR&#8217;S NOTE: not yet, not really.] We note that there are further possibilities for the future evolution of naming services meeting these properties.</p>
 <p id="rfc.section.6.p.2">[EDITOR&#8217;S NOTE: there are probably more than just this one, but this is the important one.]</p>
 <h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#delegation-and-redirection-are-separate-operations" id="delegation-and-redirection-are-separate-operations">Delegation and Redirection are Separate Operations</a></h1>
-<p id="rfc.section.6.1.p.1">Any system which can provide the authenticity properties in <a href="#authenticity">Section 5.2</a> is freed from one of the design characteristics of the present domain name system: the requirement to bind a zone of authority to a specific set of authoritative servers. Since the authenticity of delegation must be a protected by a chain of signatures back to the root of authority, the location within the infrastructure where an authoritative mapping &#8220;lives&#8221; is no longer bound to a specific name server. While the present design of DNS does have its own scalability advantages, this implication allows a much larger design space to be explored for future name service work, as a delegation need not always be implemented via redirection to another name server.</p>
+<p id="rfc.section.6.1.p.1">Any system which can provide the authenticity properties in <a href="#authenticity">Section 5.2</a> is freed from one of the design characteristics of the present domain name system: the requirement to bind a zone of authority to a specific set of authoritative servers. Since the authenticity of delegation must be a protected by a chain of signatures back to the root of authority, the location within the infrastructure where an authoritative mapping &#8220;lives&#8221; is no longer bound to a specific name server. While the present design of DNS does have its own scalability advantages, this implication allows a much larger design space to be explored for future name service work, as a Delegation need not always be implemented via redirection to another name server.</p>
 <h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a></h1>
 <p id="rfc.section.7.p.1">This document has no actions for IANA</p>
 <h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>

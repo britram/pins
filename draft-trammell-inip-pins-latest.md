@@ -26,6 +26,7 @@ author:
 
 informative:
     RFC1035:
+    I-D.ietf-dnsop-edns-client-subnet:
 
 --- abstract
 
@@ -194,7 +195,10 @@ Subject of the query asserts this lack of Association.
 
 ## Consistency
 
-[EDITOR'S NOTE: frontmatter here]
+Consistency in a naming service is important. The naming service should
+provide the most globally consistent view possible of the set of associations
+that exist at a given point in time, within the limits of latency and
+bandwidth tradeoffs.
 
 ### Dynamic Consistency
 
@@ -204,16 +208,22 @@ with known and predictable bounds on "how previously". Given that additions
 of, changes to, and deletions of associations may have different operational
 causes, different bounds may apply to different operations.
 
-[EDITOR'S NOTE: DNS: TTL. Additions faster than changes and deletions, which is
-probably the opposite of what you really want if you want name-service-based
-revocation of things.]
+[EDITOR'S NOTE: This is the point of TTL in DNS. Additions faster than changes
+and deletions, which is probably the opposite of what you really want if you
+want name-service-based revocation of things.]
 
-### Explicit Inconsistency of Authoritative Results
+### Explicit Inconsistency
 
-Some techniques (e.g. DNS CDN) require giving different answers to different queries, even in the absence of changes: the stable state of the namespace is inconsistent. This inconsistency should be explicit: a querier should be able to know that an answer might be dependent on its identity, network location, or other factors.
+Some techniques require giving different answers to different queries, even in
+the absence of changes: the stable state of the namespace is not globally
+consistent. This inconsistency should be explicit: a querier should be able to
+know that an answer might be dependent on its identity, network location, or
+other factors.
 
-[EDITOR'S NOTE: DNS doesn't do this. Not sure how useful this really is in a
-world where people deploy anycast TCP.]
+Note that explicit inconsistency based on client identity or network address
+may increase query linkability (see {{query-linkability}}).
+
+[EDITOR'S NOTE: DNS doesn't do this. {{I-D.ietf-dnsop-edns-client-subnet}} addresses making the query from the recursive explicit that it would like an appropriate answer 
 
 ## Performance Properties
 

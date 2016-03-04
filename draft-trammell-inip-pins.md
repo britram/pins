@@ -26,11 +26,22 @@ author:
 
 informative:
     RFC1035:
+    RFC4033:
+    RFC5730:
     I-D.ietf-dnsop-edns-client-subnet:
+    I-D.ietf-dprive-dns-over-tls:
+    I-D.ietf-dprive-dnsodtls:
 
 --- abstract
 
-This document specifies a set of necessary functions and desirable properties of an ideal system for resolving names to addresses and associated information for establishing communication associations in the Internet. For each property, it briefly explains the rationale behind it, and how the property is or could be met with the present Domain Name System. It is intended to start a discussion within the IAB's Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs by returning to first principles.
+This document specifies a set of necessary functions and desirable properties
+of an ideal system for resolving names to addresses and associated information
+for establishing communication associations in the Internet. For each
+property, it briefly explains the rationale behind it, and how the property is
+or could be met with the present Domain Name System. It is intended to start a
+discussion within the IAB's Names and Identifiers program about gaps between
+the present reality of DNS and the naming service the Internet needs by
+returning to first principles.
 
 --- middle
 
@@ -44,9 +55,16 @@ the design space of Internet-scale naming services. Many other naming services
 have been proposed, though none has been remotely as successful for general-
 purpose use in the Internet.
 
-This document returns to first principles, to determine the dimensions of the design space of desirable properties of an Internet-scale naming service. It is a work in progress, intended to start a discussion within the IAB's Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs.
+This document returns to first principles, to determine the dimensions of the
+design space of desirable properties of an Internet-scale naming service. It
+is a work in progress, intended to start a discussion within the IAB's Names
+and Identifiers program about gaps between the present reality of DNS and the
+naming service the Internet needs.
 
-{{query-interface}} and {{authority-interface}} define the set of operations a naming service should provide for queriers and authorities, {{properties}} defines a set of desirable properties of the provision of this service, and {{observations}} examines implications of these properties.
+{{query-interface}} and {{authority-interface}} define the set of operations 
+a naming service should provide for queriers and authorities, {{properties}} 
+defines a set of desirable properties of the provision of this service, 
+and {{observations}} examines implications of these properties.
 
 # Terminology
 
@@ -79,7 +97,7 @@ addresses in one or more address families (e.g. IP version 4, IP version 6). A
 querier may specify which address families it is interested in receiving
 addresses for, and the naming system treats all address families equally.
 
-[EDITOR'S NOTE: DNS does this for the Internet via IN A and IN AAAA records.]
+This mapping is implemented in the DNS protocol via the A and AAAA RRTYPES.
 
 ## Address to Name
 
@@ -87,7 +105,12 @@ Given an Subject address, the naming service returns a set of names associated
 with that address, if such an association exists, where the association is
 determined by the authority for that address.
 
-[EDITOR'S NOTE: DNS does this for the Internet with IN PTR records within the in-addr.arpa. and ip6.arpa. zones. Note the limitation of delegation on octet (IPv4) and nibble (IPv6) boundaries. Cite workarounds.]
+This mapping is implemented in the DNS protocol via the PTR RRTYPE. IPv4
+mappings exist within the in-addr.arpa. zone, and IPv6 mappings in the
+ip6.arpa. zone. This mechanism has the disadvantage that delegations in IPv4
+only happen on octet (8-bit) boundaries, and in IPv6 only happen on hex digit
+(4-bit) boundaries, which make delegations on other prefixes operationally
+difficult. [EDITOR'S NOTE: is there a citation for practical workarounds here?]
 
 ## Name to Name
 
@@ -95,7 +118,9 @@ Given a Subject name, the naming service returns a set of object names
 associated with that name, if such an association exists, where the
 association is determined by the authority for the subject name.
 
-[EDITOR'S NOTE: DNS does this via IN CNAME, but doesn't handle the set case, and there are restrictions on the use of IN CNAME (with respect to NS and MX records, but not SRV?)].
+This mapping is implemented in the DNS protocol via the CNAME RRTYPE. CNAME
+does not allow the association of multiple object names with a single subject,
+and CNAME may not combine with other RRTYPEs (e.g. NS, MX) arbitrarily.
 
 ## Name to Auxiliary Information
 
@@ -103,13 +128,15 @@ Given a Subject name, the naming service returns other auxiliary information
 associated with that name that is useful for establishing communication over
 the Internet with the entities associated with that name.
 
-[EDITOR'S NOTE: Most other RRTYPEs implement this pattern.]
+Most of the other RRTYPES in the DNS protocol implement these sort of mappings.
 
 ## Name/Address to Auxiliary Information
 
-As a name might be associated with more than one address, auxiliary information as above may be associated with a name/address pair, as opposed to just with a name.
+As a name might be associated with more than one address, auxiliary
+information as above may be associated with a name/address pair, as opposed to
+just with a name.
 
-[EDITOR'S NOTE: DNS doesn't do this, does it?]
+This mapping is not presently supported by the DNS protocol.
 
 # Authority Interface
 
@@ -123,11 +150,15 @@ possible.
 
 # Properties
 
-The following properties are desirable in a naming service providing the functions in {{query-interface}} and {{authority-interface}}.
+The following properties are desirable in a naming service providing the
+functions in {{query-interface}} and {{authority-interface}}.
 
 ## Authority
 
-Every Association among names, addresses, and auxiliary data is subject to some Authority: an entity which has the right to determine which Associations and Subjects exist in its namespace. The following are properties of Authorities in our ideal naming service:
+Every Association among names, addresses, and auxiliary data is subject to
+some Authority: an entity which has the right to determine which Associations
+and Subjects exist in its namespace. The following are properties of
+Authorities in our ideal naming service:
 
 ### Federation of Authority
 
@@ -136,6 +167,10 @@ Authority. This property allows the naming service to scale to the size of the
 Internet, and leads to a tree-structured namespace, where each Delegation is
 itself identified with a Subject at a given level in the namespace.
 
+In the DNS protocol, this federation of authority is implemented using the NS
+RRTYPE, redirecting queries to subordinate authorities recursively to the
+final authority.
+
 ### Unity of Authority
 
 For a given Subject, there is a single Authority that has the right to
@@ -143,7 +178,11 @@ determine the Associations and/or Delegations for that subject. The unitary
 authority for the root of the namespace tree may be special, though; see
 {{consensus-on-root-of-authority}}.
 
-[EDITOR'S NOTE: The unitary authority for a given name in the DNS is its registry. The existence of registrars complicates this somewhat; see below.]
+In the DNS protocol as deployed, unitary authority is approximated by the
+entity identified by the SOA RRTYPE. The existence of registrars, which use
+the Extensible Provisioning Protocol (EPP) {{RFC5730}} to modify entries in
+the zones under the authority of a top-level domain registry, complicates this
+somewhat.
 
 ### Transparency of Authority
 
@@ -151,7 +190,10 @@ A querier can determine the identity of the Authority for a given Association.
 An Authority cannot delegate its rights or responsibilities with respect to a
 subject without that Delegation being exposed to the querier.
 
-[EDITOR'S NOTE: It is very hard to enforce a restriction about delegations on the side (i.e. "I make this assertion 'cause somebody paid me to"). One could implement this in the current DNS by having the recursive also do a WHOIS, making information about the registrar available for local policy decisions.]
+[EDITOR'S NOTE: It is very hard to enforce a restriction about delegations on
+the side (i.e. "I make this assertion 'cause somebody paid me to"). One could
+implement this in the current DNS by having the recursive also do a WHOIS,
+making information about the registrar available for local policy decisions.]
 
 ### Consensus on Root of Authority
 
@@ -175,7 +217,7 @@ Given a Delegation from a superordinate to a subordinate Authority, a querier
 must be able to verify that the superordinate Authority authorized the
 Delegation.
 
-[EDITOR'S NOTE: DNSSEC does this.]
+Authenticity of delegation in DNS is provided by DNSSEC {{RFC4033}}.
 
 ### Authenticity of Response
 
@@ -183,7 +225,7 @@ The authenticity of every answer must be verifiable by the querier, and the
 querier must be able to confirm that the Association returned in the answer is
 correct according to the Authority for the Subject of the query.
 
-[EDITOR'S NOTE: DNSSEC does this.]
+Authenticity of response in DNS is provided by DNSSEC.
 
 ### Authenticity of Negative Response
 
@@ -191,7 +233,7 @@ Some queries will yield no answer, because no such Association exists. In
 this case, the querier must be able to confirm that the Authority for the
 Subject of the query asserts this lack of Association.
 
-[EDITOR'S NOTE: DNSSEC does this depending on how well you've set it up?]
+Authenticity of negative response in DNS is provided by DNSSEC.
 
 ## Consistency
 
@@ -208,9 +250,10 @@ with known and predictable bounds on "how previously". Given that additions
 of, changes to, and deletions of associations may have different operational
 causes, different bounds may apply to different operations.
 
-[EDITOR'S NOTE: This is the point of TTL in DNS. Additions faster than changes
-and deletions, which is probably the opposite of what you really want if you
-want name-service-based revocation of things.]
+The time-to-live (TTL) on a resource record provides a mechanism for expiring
+old resource records in the DNS protocol as implemented. We note that this
+mechanism makes additions to the system propagate faster than changes and
+deletions, which may not be a desirable property.
 
 ### Explicit Inconsistency
 
@@ -220,24 +263,43 @@ consistent. This inconsistency should be explicit: a querier should be able to
 know that an answer might be dependent on its identity, network location, or
 other factors.
 
-Note that explicit inconsistency based on client identity or network address
-may increase query linkability (see {{query-linkability}}).
+One example of such desirable inconsistency is the common practice of "split
+horizon" DNS, where an organization makes internal names available on its own
+network, but only the names of externally-visible subjects available to the
+Internet at large. 
 
-[EDITOR'S NOTE: DNS doesn't do this. {{I-D.ietf-dnsop-edns-client-subnet}} addresses making the query from the recursive explicit that it would like an appropriate answer 
+Another is the common practice of DNS-based content distribution, in which an
+authoritative name server gives different answers for the same query depending
+on the network location from which the query was received, or depending on the
+subnet in which the end client originating a query is located (via the EDNS
+Client Subnet extension {{I-D.ietf-dnsop-edns-client-subnet}}). Such
+inconsistency based on client identity or network address may increase query
+linkability (see {{query-linkability}}).
+
+We note that while DNS can be deployed to allow essentially unlimited kinds of
+inconsistency in its responses, there is no protocol support for a response to
+explicitly note that it is inconsistent. {{I-D.ietf-dnsop-edns-client-subnet}}
+does allow a querier to note that it would specifically like the view of the
+state of the namespace offered to a certain part of the network, and as such
+can be seen as inchoate support for this property.
 
 ## Performance Properties
 
-[EDITOR'S NOTE: note that these have to do with name service dynamics, and
-that explicit tradeoffs here are possible and interesting.]
+A naming service must provide appropriate performance guarantees to its
+clients. As these properties deal with the operational parameters of the
+naming service, interesting tradeoffs are available among them, both at design
+time as well as at run time (on which see {{explicit-tradeoff}}).
 
 ### Availability
 
-The naming service as a while must be resilient to failures of individual
+The naming service as a whole must be resilient to failures of individual
 nodes providing the naming service, as well as to failures of links among
 them. Intentional prevention of successful, authenticated query by an
 adversary should be as hard as practical.
 
-[EDITOR'S NOTE: DNS aims to provide this through explicit secondaries and XFER, as well as through operational practice: e.g. through ease of anycasting UDP services.]
+The DNS protocol was designed to be highly available through the use of
+secondary nameservers. Operational practices (e.g. anycast deployment) also
+increase the availability of DNS as currently deployed.
 
 ### Lookup Latency
 
@@ -246,8 +308,6 @@ associated data from the point of view of the querier, amortized over all
 queries for all connections, should not significantly impact connection setup
 or resumption latency.
 
-[EDITOR'S NOTE: DNS aims to provide this through being small and simple, and through the use of caching.]
-
 ### Bandwidth Efficiency
 
 The bandwidth cost for looking up a name and other associated data necessary
@@ -255,14 +315,15 @@ for establishing communication with a given Subject, from the point of view of
 the querier, amortized over all queries for all connections, should
 significantly impact total bandwidth demand for an application.
 
-[EDITOR'S NOTE: What we mean here is that approaches that flood all name mapping updates to the entire Internet are probably not acceptable. Cite work on DNS traffic load to show that DNS has this property?]
-
 ### Query Linkability
 
 It should be costly for an adversary to monitor the infrastructure in order to
 link specific queries to specific queriers.
 
-[EDITOR'S NOTE: DPRIVE is working toward this.]
+The DPRIVE working group is currently working on approaches to improve
+confidentiality of stub- to recursive-resolver communications in order to
+reduce query linkability; see e.g. {{I-D.ietf-dprive-dns-over-tls}}, {{I-D
+.ietf-dprive-dnsodtls}}.
 
 ### Explicit Tradeoff
 
@@ -274,16 +335,15 @@ one performance property by accepting a tradeoff in another, including:
 - Reduced request linkability for increased latency and/or reduced dynamic consistency
 - Reduced aggregate bandwidth use for increased latency and/or reduced dynamic consistency
 
-[EDITOR'S NOTE: DNS doesn't do this, and can't really: TTL gives you a tradeoff knob but it's in the hands of the authority]
+There is no support for explicit tradeoffs in performance properties available
+to clients in the present DNS.
 
 # Observations
 
-We have shown that most of the properties of our ideal name service are met,
-or could be met, by the present DNS protocol or extensions thereto. [EDITOR'S
-NOTE: not yet, not really.] We note that there are further possibilities for
-the future evolution of naming services meeting these properties.
-
-[EDITOR'S NOTE: there are probably more than just this one, but this is the important one.]
+On a cursory examination, many of the properties of our ideal name service can
+be met, or could be met, by the present DNS protocol or extensions thereto.
+We note that there are further possibilities for the future evolution of
+naming services meeting these properties.
 
 ## Delegation and Redirection are Separate Operations
 

@@ -282,7 +282,8 @@ li, p {
 <link href="#rfc.section.5.1.1" rel="Chapter" title="5.1.1 Federation of Authority"/>
 <link href="#rfc.section.5.1.2" rel="Chapter" title="5.1.2 Unity of Authority"/>
 <link href="#rfc.section.5.1.3" rel="Chapter" title="5.1.3 Transparency of Authority"/>
-<link href="#rfc.section.5.1.4" rel="Chapter" title="5.1.4 Consensus on Root of Authority"/>
+<link href="#rfc.section.5.1.4" rel="Chapter" title="5.1.4 Revocability of Authority"/>
+<link href="#rfc.section.5.1.5" rel="Chapter" title="5.1.5 Consensus on Root of Authority"/>
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Authenticity"/>
 <link href="#rfc.section.5.2.1" rel="Chapter" title="5.2.1 Authenticity of Delegation"/>
 <link href="#rfc.section.5.2.2" rel="Chapter" title="5.2.2 Authenticity of Response"/>
@@ -297,7 +298,8 @@ li, p {
 <link href="#rfc.section.5.4.4" rel="Chapter" title="5.4.4 Query Linkability"/>
 <link href="#rfc.section.5.4.5" rel="Chapter" title="5.4.5 Explicit Tradeoff"/>
 <link href="#rfc.section.6" rel="Chapter" title="6 Observations"/>
-<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Delegation and Redirection are Separate Operations"/>
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Delegation and redirection are separate operations"/>
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Queries and assertion contexts are presently implicit"/>
 <link href="#rfc.section.7" rel="Chapter" title="7 IANA Considerations"/>
 <link href="#rfc.section.8" rel="Chapter" title="8 Security Considerations"/>
 <link href="#rfc.section.9" rel="Chapter" title="9 Acknowledgments"/>
@@ -310,7 +312,7 @@ li, p {
 
   <meta name="dct.creator" content="Trammell, B." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-trammell-inip-pins-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-3-04" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-3-11" />
   <meta name="dct.abstract" content="This document specifies a set of necessary functions and desirable properties of an ideal system for resolving names to addresses and associated information for establishing communication associations in the Internet. For each property, it briefly explains the rationale behind it, and how the property is or could be met with the present Domain Name System. It is intended to start a discussion within the IAB&#8217;s Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs by returning to first principles." />
   <meta name="description" content="This document specifies a set of necessary functions and desirable properties of an ideal system for resolving names to addresses and associated information for establishing communication associations in the Internet. For each property, it briefly explains the rationale behind it, and how the property is or could be met with the present Domain Name System. It is intended to start a discussion within the IAB&#8217;s Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs by returning to first principles." />
 
@@ -331,10 +333,10 @@ li, p {
 </tr>
 <tr>
   <td class="left">Intended status: Informational</td>
-  <td class="right">March 04, 2016</td>
+  <td class="right">March 11, 2016</td>
 </tr>
 <tr>
-  <td class="left">Expires: September 5, 2016</td>
+  <td class="left">Expires: September 12, 2016</td>
   <td class="right"></td>
 </tr>
 
@@ -355,7 +357,7 @@ li, p {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on September 5, 2016.</p>
+<p>This Internet-Draft will expire on September 12, 2016.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -381,7 +383,8 @@ li, p {
 <ul><li>5.1.1.   <a href="#rfc.section.5.1.1">Federation of Authority</a></li>
 <li>5.1.2.   <a href="#rfc.section.5.1.2">Unity of Authority</a></li>
 <li>5.1.3.   <a href="#rfc.section.5.1.3">Transparency of Authority</a></li>
-<li>5.1.4.   <a href="#rfc.section.5.1.4">Consensus on Root of Authority</a></li>
+<li>5.1.4.   <a href="#rfc.section.5.1.4">Revocability of Authority</a></li>
+<li>5.1.5.   <a href="#rfc.section.5.1.5">Consensus on Root of Authority</a></li>
 </ul><li>5.2.   <a href="#rfc.section.5.2">Authenticity</a></li>
 <ul><li>5.2.1.   <a href="#rfc.section.5.2.1">Authenticity of Delegation</a></li>
 <li>5.2.2.   <a href="#rfc.section.5.2.2">Authenticity of Response</a></li>
@@ -396,7 +399,8 @@ li, p {
 <li>5.4.4.   <a href="#rfc.section.5.4.4">Query Linkability</a></li>
 <li>5.4.5.   <a href="#rfc.section.5.4.5">Explicit Tradeoff</a></li>
 </ul></ul><li>6.   <a href="#rfc.section.6">Observations</a></li>
-<ul><li>6.1.   <a href="#rfc.section.6.1">Delegation and Redirection are Separate Operations</a></li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">Delegation and redirection are separate operations</a></li>
+<li>6.2.   <a href="#rfc.section.6.2">Queries and assertion contexts are presently implicit</a></li>
 </ul><li>7.   <a href="#rfc.section.7">IANA Considerations</a></li>
 <li>8.   <a href="#rfc.section.8">Security Considerations</a></li>
 <li>9.   <a href="#rfc.section.9">Acknowledgments</a></li>
@@ -448,39 +452,42 @@ li, p {
 <p id="rfc.section.5.1.1.p.1">An Authority can delegate some part of its namespace to some other subordinate Authority. This property allows the naming service to scale to the size of the Internet, and leads to a tree-structured namespace, where each Delegation is itself identified with a Subject at a given level in the namespace.</p>
 <p id="rfc.section.5.1.1.p.2">In the DNS protocol, this federation of authority is implemented using the NS RRTYPE, redirecting queries to subordinate authorities recursively to the final authority.</p>
 <h1 id="rfc.section.5.1.2"><a href="#rfc.section.5.1.2">5.1.2.</a> <a href="#unity-of-authority" id="unity-of-authority">Unity of Authority</a></h1>
-<p id="rfc.section.5.1.2.p.1">For a given Subject, there is a single Authority that has the right to determine the Associations and/or Delegations for that subject. The unitary authority for the root of the namespace tree may be special, though; see <a href="#consensus-on-root-of-authority">Section 5.1.4</a>.</p>
+<p id="rfc.section.5.1.2.p.1">For a given Subject, there is a single Authority that has the right to determine the Associations and/or Delegations for that subject. The unitary authority for the root of the namespace tree may be special, though; see <a href="#consensus-on-root-of-authority">Section 5.1.5</a>.</p>
 <p id="rfc.section.5.1.2.p.2">In the DNS protocol as deployed, unitary authority is approximated by the entity identified by the SOA RRTYPE. The existence of registrars, which use the Extensible Provisioning Protocol (EPP) <a href="#RFC5730">[RFC5730]</a> to modify entries in the zones under the authority of a top-level domain registry, complicates this somewhat.</p>
 <h1 id="rfc.section.5.1.3"><a href="#rfc.section.5.1.3">5.1.3.</a> <a href="#transparency-of-authority" id="transparency-of-authority">Transparency of Authority</a></h1>
 <p id="rfc.section.5.1.3.p.1">A querier can determine the identity of the Authority for a given Association.  An Authority cannot delegate its rights or responsibilities with respect to a subject without that Delegation being exposed to the querier.</p>
-<p id="rfc.section.5.1.3.p.2">[EDITOR&#8217;S NOTE: It is very hard to enforce a restriction about delegations on the side (i.e. &#8220;I make this assertion &#8216;cause somebody paid me to&#8221;). One could implement this in the current DNS by having the recursive also do a WHOIS, making information about the registrar available for local policy decisions.]</p>
-<h1 id="rfc.section.5.1.4"><a href="#rfc.section.5.1.4">5.1.4.</a> <a href="#consensus-on-root-of-authority" id="consensus-on-root-of-authority">Consensus on Root of Authority</a></h1>
-<p id="rfc.section.5.1.4.p.1">Authority at the top level of the namespace tree is delegated according to a process such that there is universal agreement throughout the Internet as to the subordinates of those Delegations.</p>
-<p id="rfc.section.5.1.4.p.2">[EDITOR&#8217;S NOTE: Today, this is the root zone. But note that this property does not necessarily imply a single authority at the root as with the present arrangement, only that the process by which the root is changed and operated leads to a universally consistent result.]</p>
+<p id="rfc.section.5.1.3.p.2">In DNS, the authoritative name server(s) to which a query is delegated via the NS RRTYPE are known. However, we note that in the case of authorities which delegate the ability to write to the zone to other entities (i.e., the registry-registrar relationship), the current DNS provides no facility for a querier to understand on whose behalf an authoritative assertion is being made; this information is instead available via WHOIS. To our knowledge, no present DNS name servers use WHOIS information retrieved out of band to make policy decisions.</p>
+<h1 id="rfc.section.5.1.4"><a href="#rfc.section.5.1.4">5.1.4.</a> <a href="#revocability-of-authority" id="revocability-of-authority">Revocability of Authority</a></h1>
+<p id="rfc.section.5.1.4.p.1">An ideal naming service allows the revocation and replacement of an authority at any level in the namespace, and supports the revocation and replacement of authorities with minimal operational disruption.</p>
+<p id="rfc.section.5.1.4.p.2">The current DNS allows the replacement of any level of delegation except the root through changes to the appropriate NS and DS records. Authority revocation in this case is as consistent as any other change to the DNS.</p>
+<h1 id="rfc.section.5.1.5"><a href="#rfc.section.5.1.5">5.1.5.</a> <a href="#consensus-on-root-of-authority" id="consensus-on-root-of-authority">Consensus on Root of Authority</a></h1>
+<p id="rfc.section.5.1.5.p.1">Authority at the top level of the namespace tree is delegated according to a process such that there is universal agreement throughout the Internet as to the subordinates of those Delegations.</p>
+<p id="rfc.section.5.1.5.p.2">[EDITOR&#8217;S NOTE: Today, this is the root zone. But note that this property does not necessarily imply a single authority at the root as with the present arrangement, only that the process by which the root is changed and operated leads to a universally consistent result.]</p>
 <h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#authenticity" id="authenticity">Authenticity</a></h1>
 <p id="rfc.section.5.2.p.1">A querier must be able to verify that the answers that it gets from the naming service are authentic.</p>
 <h1 id="rfc.section.5.2.1"><a href="#rfc.section.5.2.1">5.2.1.</a> <a href="#authenticity-of-delegation" id="authenticity-of-delegation">Authenticity of Delegation</a></h1>
-<p id="rfc.section.5.2.1.p.1">Given a Delegation from a superordinate to a subordinate Authority, a querier must be able to verify that the superordinate Authority authorized the Delegation.</p>
+<p id="rfc.section.5.2.1.p.1">Given a Delegation from a superordinate to a subordinate Authority, a querier can verify that the superordinate Authority authorized the Delegation.</p>
 <p id="rfc.section.5.2.1.p.2">Authenticity of delegation in DNS is provided by DNSSEC <a href="#RFC4033">[RFC4033]</a>.</p>
 <h1 id="rfc.section.5.2.2"><a href="#rfc.section.5.2.2">5.2.2.</a> <a href="#authenticity-of-response" id="authenticity-of-response">Authenticity of Response</a></h1>
-<p id="rfc.section.5.2.2.p.1">The authenticity of every answer must be verifiable by the querier, and the querier must be able to confirm that the Association returned in the answer is correct according to the Authority for the Subject of the query.</p>
+<p id="rfc.section.5.2.2.p.1">The authenticity of every answer is verifiable by the querier. The querier can confirm that the Association returned in the answer is correct according to the Authority for the Subject of the query.</p>
 <p id="rfc.section.5.2.2.p.2">Authenticity of response in DNS is provided by DNSSEC.</p>
 <h1 id="rfc.section.5.2.3"><a href="#rfc.section.5.2.3">5.2.3.</a> <a href="#authenticity-of-negative-response" id="authenticity-of-negative-response">Authenticity of Negative Response</a></h1>
-<p id="rfc.section.5.2.3.p.1">Some queries will yield no answer, because no such Association exists. In this case, the querier must be able to confirm that the Authority for the Subject of the query asserts this lack of Association.</p>
+<p id="rfc.section.5.2.3.p.1">Some queries will yield no answer, because no such Association exists. In this case, the querier can confirm that the Authority for the Subject of the query asserts this lack of Association.</p>
 <p id="rfc.section.5.2.3.p.2">Authenticity of negative response in DNS is provided by DNSSEC.</p>
 <h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#consistency" id="consistency">Consistency</a></h1>
 <p id="rfc.section.5.3.p.1">Consistency in a naming service is important. The naming service should provide the most globally consistent view possible of the set of associations that exist at a given point in time, within the limits of latency and bandwidth tradeoffs.</p>
 <h1 id="rfc.section.5.3.1"><a href="#rfc.section.5.3.1">5.3.1.</a> <a href="#dynamic-consistency" id="dynamic-consistency">Dynamic Consistency</a></h1>
-<p id="rfc.section.5.3.1.p.1">When an Authority makes changes to an Association, every query for a given Subject must give either the new valid result or a previously valid result, with known and predictable bounds on &#8220;how previously&#8221;. Given that additions of, changes to, and deletions of associations may have different operational causes, different bounds may apply to different operations.</p>
-<p id="rfc.section.5.3.1.p.2">The time-to-live (TTL) on a resource record provides a mechanism for expiring old resource records in the DNS protocol as implemented. We note that this mechanism makes additions to the system propagate faster than changes and deletions, which may not be a desirable property.</p>
+<p id="rfc.section.5.3.1.p.1">When an Authority makes changes to an Association, every query for a given Subject returns either the new valid result or a previously valid result, with known and predictable bounds on &#8220;how previously&#8221;. Given that additions of, changes to, and deletions of associations may have different operational causes, different bounds may apply to different operations.</p>
+<p id="rfc.section.5.3.1.p.2">The time-to-live (TTL) on a resource record in DNS provides a mechanism for expiring old resource records. We note that this mechanism makes additions to the system propagate faster than changes and deletions, which may not be a desirable property.</p>
 <h1 id="rfc.section.5.3.2"><a href="#rfc.section.5.3.2">5.3.2.</a> <a href="#explicit-inconsistency" id="explicit-inconsistency">Explicit Inconsistency</a></h1>
-<p id="rfc.section.5.3.2.p.1">Some techniques require giving different answers to different queries, even in the absence of changes: the stable state of the namespace is not globally consistent. This inconsistency should be explicit: a querier should be able to know that an answer might be dependent on its identity, network location, or other factors.</p>
+<p id="rfc.section.5.3.2.p.1">Some techniques require giving different answers to different queries, even in the absence of changes: the stable state of the namespace is not globally consistent. This inconsistency should be explicit: a querier can know that an answer might be dependent on its identity, network location, or other factors.</p>
 <p id="rfc.section.5.3.2.p.2">One example of such desirable inconsistency is the common practice of &#8220;split horizon&#8221; DNS, where an organization makes internal names available on its own network, but only the names of externally-visible subjects available to the Internet at large.</p>
 <p id="rfc.section.5.3.2.p.3">Another is the common practice of DNS-based content distribution, in which an authoritative name server gives different answers for the same query depending on the network location from which the query was received, or depending on the subnet in which the end client originating a query is located (via the EDNS Client Subnet extension <a href="#I-D.ietf-dnsop-edns-client-subnet">[I-D.ietf-dnsop-edns-client-subnet]</a>). Such inconsistency based on client identity or network address may increase query linkability (see <a href="#query-linkability">Section 5.4.4</a>).</p>
-<p id="rfc.section.5.3.2.p.4">We note that while DNS can be deployed to allow essentially unlimited kinds of inconsistency in its responses, there is no protocol support for a response to explicitly note that it is inconsistent. <a href="#I-D.ietf-dnsop-edns-client-subnet">[I-D.ietf-dnsop-edns-client-subnet]</a> does allow a querier to note that it would specifically like the view of the state of the namespace offered to a certain part of the network, and as such can be seen as inchoate support for this property.</p>
+<p id="rfc.section.5.3.2.p.4">We note that while DNS can be deployed to allow essentially unlimited kinds of inconsistency in its responses, there is no protocol support for a query to express the kind of consistency it desires, or for a response to explicitly note that it is inconsistent. <a href="#I-D.ietf-dnsop-edns-client-subnet">[I-D.ietf-dnsop-edns-client-subnet]</a> does allow a querier to note that it would specifically like the view of the state of the namespace offered to a certain part of the network, and as such can be seen as inchoate support for this property.</p>
 <h1 id="rfc.section.5.4"><a href="#rfc.section.5.4">5.4.</a> <a href="#performance-properties" id="performance-properties">Performance Properties</a></h1>
 <p id="rfc.section.5.4.p.1">A naming service must provide appropriate performance guarantees to its clients. As these properties deal with the operational parameters of the naming service, interesting tradeoffs are available among them, both at design time as well as at run time (on which see <a href="#explicit-tradeoff">Section 5.4.5</a>).</p>
 <h1 id="rfc.section.5.4.1"><a href="#rfc.section.5.4.1">5.4.1.</a> <a href="#availability" id="availability">Availability</a></h1>
-<p id="rfc.section.5.4.1.p.1">The naming service as a whole must be resilient to failures of individual nodes providing the naming service, as well as to failures of links among them. Intentional prevention of successful, authenticated query by an adversary should be as hard as practical.</p>
+<p id="rfc.section.5.4.1.p.1">The naming service as a whole is resilient to failures of individual nodes providing the naming service, as well as to failures of links among them. Intentional prevention of successful, authenticated query by an adversary should be as hard as practical.</p>
 <p id="rfc.section.5.4.1.p.2">The DNS protocol was designed to be highly available through the use of secondary nameservers. Operational practices (e.g. anycast deployment) also increase the availability of DNS as currently deployed.</p>
 <h1 id="rfc.section.5.4.2"><a href="#rfc.section.5.4.2">5.4.2.</a> <a href="#lookup-latency" id="lookup-latency">Lookup Latency</a></h1>
 <p id="rfc.section.5.4.2.p.1">The time for the entire process of looking up a name and other necessary associated data from the point of view of the querier, amortized over all queries for all connections, should not significantly impact connection setup or resumption latency.</p>
@@ -488,7 +495,7 @@ li, p {
 <p id="rfc.section.5.4.3.p.1">The bandwidth cost for looking up a name and other associated data necessary for establishing communication with a given Subject, from the point of view of the querier, amortized over all queries for all connections, should significantly impact total bandwidth demand for an application.</p>
 <h1 id="rfc.section.5.4.4"><a href="#rfc.section.5.4.4">5.4.4.</a> <a href="#query-linkability" id="query-linkability">Query Linkability</a></h1>
 <p id="rfc.section.5.4.4.p.1">It should be costly for an adversary to monitor the infrastructure in order to link specific queries to specific queriers.</p>
-<p id="rfc.section.5.4.4.p.2">The DPRIVE working group is currently working on approaches to improve confidentiality of stub- to recursive-resolver communications in order to reduce query linkability; see e.g. <a href="#I-D.ietf-dprive-dns-over-tls">[I-D.ietf-dprive-dns-over-tls]</a>, {{I-D .ietf-dprive-dnsodtls}}.</p>
+<p id="rfc.section.5.4.4.p.2">The DPRIVE working group is currently working on approaches to improve confidentiality of stub- to recursive-resolver communications in order to reduce query linkability; see e.g. <a href="#I-D.ietf-dprive-dns-over-tls">[I-D.ietf-dprive-dns-over-tls]</a>, <a href="#I-D.ietf-dprive-dnsodtls">[I-D.ietf-dprive-dnsodtls]</a>.</p>
 <h1 id="rfc.section.5.4.5"><a href="#rfc.section.5.4.5">5.4.5.</a> <a href="#explicit-tradeoff" id="explicit-tradeoff">Explicit Tradeoff</a></h1>
 <p id="rfc.section.5.4.5.p.1">A querier should be able to indicate the desire for a benefit with respect to one performance property by accepting a tradeoff in another, including:</p>
 <p/>
@@ -501,15 +508,18 @@ li, p {
 </ul>
 <p id="rfc.section.5.4.5.p.3">There is no support for explicit tradeoffs in performance properties available to clients in the present DNS.</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#observations" id="observations">Observations</a></h1>
-<p id="rfc.section.6.p.1">On a cursory examination, many of the properties of our ideal name service can be met, or could be met, by the present DNS protocol or extensions thereto.  We note that there are further possibilities for the future evolution of naming services meeting these properties.</p>
-<h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#delegation-and-redirection-are-separate-operations" id="delegation-and-redirection-are-separate-operations">Delegation and Redirection are Separate Operations</a></h1>
+<p id="rfc.section.6.p.1">On a cursory examination, many of the properties of our ideal name service can be met, or could be met, by the present DNS protocol or extensions thereto. We note that there are further possibilities for the future evolution of naming services meeting these properties. This section contains random observations that might inform future work.</p>
+<h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#delegation-and-redirection-are-separate-operations" id="delegation-and-redirection-are-separate-operations">Delegation and redirection are separate operations</a></h1>
 <p id="rfc.section.6.1.p.1">Any system which can provide the authenticity properties in <a href="#authenticity">Section 5.2</a> is freed from one of the design characteristics of the present domain name system: the requirement to bind a zone of authority to a specific set of authoritative servers. Since the authenticity of delegation must be a protected by a chain of signatures back to the root of authority, the location within the infrastructure where an authoritative mapping &#8220;lives&#8221; is no longer bound to a specific name server. While the present design of DNS does have its own scalability advantages, this implication allows a much larger design space to be explored for future name service work, as a Delegation need not always be implemented via redirection to another name server.</p>
+<h1 id="rfc.section.6.2"><a href="#rfc.section.6.2">6.2.</a> <a href="#queries-and-assertion-contexts-are-presently-implicit" id="queries-and-assertion-contexts-are-presently-implicit">Queries and assertion contexts are presently implicit</a></h1>
+<p id="rfc.section.6.2.p.1">Much of the difficulty with explicit inconsistency (<a href="#explicit-inconsistency">Section 5.3.2</a>) derives from the fact that assertions and queries about subjects exist within a context: .local names on the local network (whether link or site local), split-DNS names within the context of the &#8220;inside&#8221; side of the recursive resolver, DNS geographic load balancing within the geographic context of the client. Because DNS provides no protocol-level support for expressing these contexts, they remain implicit.</p>
+<p id="rfc.section.6.2.p.2">We note that protocol-level support for this context explicit could point toward solutions for a variety of problems in currently deployed naming services, from generalized solutions with privacy/efficiency tradeoffs to the (<a href="#I-D.ietf-dnsop-edns-client-subnet">[I-D.ietf-dnsop-edns-client-subnet]</a> aside), to explicit redirection to alternate naming resolution for &#8220;special&#8221; names <a href="#RFC6761">[RFC6761]</a>.</p>
 <h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a></h1>
 <p id="rfc.section.7.p.1">This document has no actions for IANA</p>
 <h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
 <p id="rfc.section.8.p.1">[EDITOR&#8217;S NOTE: todo]</p>
 <h1 id="rfc.section.9"><a href="#rfc.section.9">9.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a></h1>
-<p id="rfc.section.9.p.1">This document is an output of a design work on naming services at the Network Security Group at ETH Zurich. Thanks to the group, including Daniele Asoni and Stephen Shirley, for discussions leading to this document. Thanks as well to Andrew Sullivan and Suzanne Woolf for input and feedback.</p>
+<p id="rfc.section.9.p.1">This document is, in part, an output of design work on naming services at the Network Security Group at ETH Zurich. Thanks to the group, including Daniele Asoni, Steve Matsumoto, and Stephen Shirley, for discussions leading to this document. Thanks as well to Ted Hardie, Wendy Selzter, Andrew Sullivan, and Suzanne Woolf for input and feedback.</p>
 <h1 id="rfc.references"><a href="#rfc.references">10.</a> Informative References</h1>
 <table>
   <tbody>
@@ -548,6 +558,12 @@ li, p {
         <b id="RFC5730">[RFC5730]</b>
       </td>
       <td class="top"><a>Hollenbeck, S.</a>, "<a href="http://tools.ietf.org/html/rfc5730">Extensible Provisioning Protocol (EPP)</a>", STD 69, RFC 5730, DOI 10.17487/RFC5730, August 2009.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6761">[RFC6761]</b>
+      </td>
+      <td class="top"><a>Cheshire, S.</a> and <a>M. Krochmal</a>, "<a href="http://tools.ietf.org/html/rfc6761">Special-Use Domain Names</a>", RFC 6761, DOI 10.17487/RFC6761, February 2013.</td>
     </tr>
   </tbody>
 </table>

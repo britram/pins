@@ -28,6 +28,7 @@ informative:
     RFC1035:
     RFC4033:
     RFC5730:
+    RFC6761:
     I-D.ietf-dnsop-edns-client-subnet:
     I-D.ietf-dprive-dns-over-tls:
     I-D.ietf-dprive-dnsodtls:
@@ -190,10 +191,24 @@ A querier can determine the identity of the Authority for a given Association.
 An Authority cannot delegate its rights or responsibilities with respect to a
 subject without that Delegation being exposed to the querier.
 
-[EDITOR'S NOTE: It is very hard to enforce a restriction about delegations on
-the side (i.e. "I make this assertion 'cause somebody paid me to"). One could
-implement this in the current DNS by having the recursive also do a WHOIS,
-making information about the registrar available for local policy decisions.]
+In DNS, the authoritative name server(s) to which a query is delegated via the
+NS RRTYPE are known. However, we note that in the case of authorities which
+delegate the ability to write to the zone to other entities (i.e., the
+registry-registrar relationship), the current DNS provides no facility for a
+querier to understand on whose behalf an authoritative assertion is being
+made; this information is instead available via WHOIS. To our knowledge, no
+present DNS name servers use WHOIS information retrieved out of band to make
+policy decisions.
+
+### Revocability of Authority
+
+An ideal naming service allows the revocation and replacement of an authority
+at any level in the namespace, and supports the revocation and replacement of
+authorities with minimal operational disruption.
+
+The current DNS allows the replacement of any level of delegation except the
+root through changes to the appropriate NS and DS records. Authority
+revocation in this case is as consistent as any other change to the DNS. 
 
 ### Consensus on Root of Authority
 
@@ -214,15 +229,15 @@ service are authentic.
 ### Authenticity of Delegation
 
 Given a Delegation from a superordinate to a subordinate Authority, a querier
-must be able to verify that the superordinate Authority authorized the
+can verify that the superordinate Authority authorized the
 Delegation.
 
 Authenticity of delegation in DNS is provided by DNSSEC {{RFC4033}}.
 
 ### Authenticity of Response
 
-The authenticity of every answer must be verifiable by the querier, and the
-querier must be able to confirm that the Association returned in the answer is
+The authenticity of every answer is verifiable by the querier. The
+querier can confirm that the Association returned in the answer is
 correct according to the Authority for the Subject of the query.
 
 Authenticity of response in DNS is provided by DNSSEC.
@@ -230,7 +245,7 @@ Authenticity of response in DNS is provided by DNSSEC.
 ### Authenticity of Negative Response
 
 Some queries will yield no answer, because no such Association exists. In
-this case, the querier must be able to confirm that the Authority for the
+this case, the querier can confirm that the Authority for the
 Subject of the query asserts this lack of Association.
 
 Authenticity of negative response in DNS is provided by DNSSEC.
@@ -245,23 +260,22 @@ bandwidth tradeoffs.
 ### Dynamic Consistency
 
 When an Authority makes changes to an Association, every query for a given
-Subject must give either the new valid result or a previously valid result,
+Subject returns either the new valid result or a previously valid result,
 with known and predictable bounds on "how previously". Given that additions
 of, changes to, and deletions of associations may have different operational
 causes, different bounds may apply to different operations.
 
-The time-to-live (TTL) on a resource record provides a mechanism for expiring
-old resource records in the DNS protocol as implemented. We note that this
-mechanism makes additions to the system propagate faster than changes and
-deletions, which may not be a desirable property.
+The time-to-live (TTL) on a resource record in DNS provides a mechanism for
+expiring old resource records. We note that this mechanism makes additions to
+the system propagate faster than changes and deletions, which may not be a
+desirable property.
 
 ### Explicit Inconsistency
 
 Some techniques require giving different answers to different queries, even in
 the absence of changes: the stable state of the namespace is not globally
-consistent. This inconsistency should be explicit: a querier should be able to
-know that an answer might be dependent on its identity, network location, or
-other factors.
+consistent. This inconsistency should be explicit: a querier can know that an
+answer might be dependent on its identity, network location, or other factors.
 
 One example of such desirable inconsistency is the common practice of "split
 horizon" DNS, where an organization makes internal names available on its own
@@ -277,11 +291,12 @@ inconsistency based on client identity or network address may increase query
 linkability (see {{query-linkability}}).
 
 We note that while DNS can be deployed to allow essentially unlimited kinds of
-inconsistency in its responses, there is no protocol support for a response to
-explicitly note that it is inconsistent. {{I-D.ietf-dnsop-edns-client-subnet}}
-does allow a querier to note that it would specifically like the view of the
-state of the namespace offered to a certain part of the network, and as such
-can be seen as inchoate support for this property.
+inconsistency in its responses, there is no protocol support for a query to
+express the kind of consistency it desires, or for a response to explicitly
+note that it is inconsistent. {{I-D.ietf-dnsop-edns-client-subnet}} does allow
+a querier to note that it would specifically like the view of the state of the
+namespace offered to a certain part of the network, and as such can be seen as
+inchoate support for this property.
 
 ## Performance Properties
 
@@ -292,7 +307,7 @@ time as well as at run time (on which see {{explicit-tradeoff}}).
 
 ### Availability
 
-The naming service as a whole must be resilient to failures of individual
+The naming service as a whole is resilient to failures of individual
 nodes providing the naming service, as well as to failures of links among
 them. Intentional prevention of successful, authenticated query by an
 adversary should be as hard as practical.
@@ -322,8 +337,8 @@ link specific queries to specific queriers.
 
 The DPRIVE working group is currently working on approaches to improve
 confidentiality of stub- to recursive-resolver communications in order to
-reduce query linkability; see e.g. {{I-D.ietf-dprive-dns-over-tls}}, {{I-D
-.ietf-dprive-dnsodtls}}.
+reduce query linkability; see e.g. {{I-D.ietf-dprive-dns-over-tls}}, 
+{{I-D.ietf-dprive-dnsodtls}}.
 
 ### Explicit Tradeoff
 
@@ -341,11 +356,12 @@ to clients in the present DNS.
 # Observations
 
 On a cursory examination, many of the properties of our ideal name service can
-be met, or could be met, by the present DNS protocol or extensions thereto.
-We note that there are further possibilities for the future evolution of
-naming services meeting these properties.
+be met, or could be met, by the present DNS protocol or extensions thereto. We
+note that there are further possibilities for the future evolution of naming
+services meeting these properties. This section contains random observations
+that might inform future work.
 
-## Delegation and Redirection are Separate Operations
+## Delegation and redirection are separate operations
 
 Any system which can provide the authenticity properties in {{authenticity}}
 is freed from one of the design characteristics of the present domain name
@@ -358,6 +374,22 @@ own scalability advantages, this implication allows a much larger design space
 to be explored for future name service work, as a Delegation need not always
 be implemented via redirection to another name server.
 
+## Queries and assertion contexts are presently implicit
+
+Much of the difficulty with explicit inconsistency ({{explicit-inconsistency}}) 
+derives from the fact that assertions and queries about
+subjects exist within a context: .local names on the local network (whether
+link or site local), split-DNS names within the context of the "inside" side
+of the recursive resolver, DNS geographic load balancing within the geographic
+context of the client. Because DNS provides no protocol-level support for
+expressing these contexts, they remain implicit.
+
+We note that protocol-level support for this context explicit could point
+toward solutions for a variety of problems in currently deployed naming
+services, from generalized solutions with privacy/efficiency tradeoffs to the
+({{I-D.ietf-dnsop-edns-client-subnet}} aside), to explicit redirection to
+alternate naming resolution for "special" names {{RFC6761}}.
+
 # IANA Considerations
 
 This document has no actions for IANA
@@ -368,8 +400,9 @@ This document has no actions for IANA
 
 # Acknowledgments
 
-This document is an output of a design work on naming services at the Network
-Security Group at ETH Zurich. Thanks to the group, including Daniele Asoni and
-Stephen Shirley, for discussions leading to this document. Thanks as well to
-Andrew Sullivan and Suzanne Woolf for input and feedback.
+This document is, in part, an output of design work on naming services at the
+Network Security Group at ETH Zurich. Thanks to the group, including Daniele
+Asoni, Steve Matsumoto, and Stephen Shirley, for discussions leading to this
+document. Thanks as well to Ted Hardie, Wendy Selzter, Andrew Sullivan, and
+Suzanne Woolf for input and feedback.
 

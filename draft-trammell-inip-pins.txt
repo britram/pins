@@ -4,8 +4,8 @@
 
 Names and Identifiers Program                                B. Trammell
 Internet-Draft                                                ETH Zurich
-Intended status: Informational                            March 11, 2016
-Expires: September 12, 2016
+Intended status: Informational                           August 09, 2016
+Expires: February 10, 2017
 
 
                  Properties of an Ideal Naming Service
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 12, 2016.
+   This Internet-Draft will expire on February 10, 2017.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Trammell               Expires September 12, 2016               [Page 1]
+Trammell                Expires February 10, 2017               [Page 1]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
    to this document.  Code Components extracted from this document must
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Trammell               Expires September 12, 2016               [Page 2]
+Trammell                Expires February 10, 2017               [Page 2]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016               [Page 3]
+Trammell                Expires February 10, 2017               [Page 3]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
 3.  Query Interface
@@ -221,9 +221,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016               [Page 4]
+Trammell                Expires February 10, 2017               [Page 4]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
 3.4.  Name to Auxiliary Information
@@ -277,9 +277,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016               [Page 5]
+Trammell                Expires February 10, 2017               [Page 5]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
    In the DNS protocol, this federation of authority is implemented
@@ -333,9 +333,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016               [Page 6]
+Trammell                Expires February 10, 2017               [Page 6]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
 5.1.5.  Consensus on Root of Authority
@@ -389,9 +389,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016               [Page 7]
+Trammell                Expires February 10, 2017               [Page 7]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
 5.3.1.  Dynamic Consistency
@@ -445,9 +445,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016               [Page 8]
+Trammell                Expires February 10, 2017               [Page 8]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
 5.4.  Performance Properties
@@ -501,9 +501,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016               [Page 9]
+Trammell                Expires February 10, 2017               [Page 9]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
 5.4.5.  Explicit Tradeoff
@@ -557,9 +557,9 @@ Internet-Draft                    PINS                        March 2016
 
 
 
-Trammell               Expires September 12, 2016              [Page 10]
+Trammell                Expires February 10, 2017              [Page 10]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
    link or site local), split-DNS names within the context of the
@@ -597,25 +597,25 @@ Internet-Draft                    PINS                        March 2016
    [I-D.ietf-dnsop-edns-client-subnet]
               Contavalli, C., Gaast, W., tale, t., and W. Kumari,
               "Client Subnet in DNS Queries", draft-ietf-dnsop-edns-
-              client-subnet-06 (work in progress), December 2015.
+              client-subnet-08 (work in progress), April 2016.
 
    [I-D.ietf-dprive-dns-over-tls]
               Zi, Z., Zhu, L., Heidemann, J., Mankin, A., Wessels, D.,
-              and P. Hoffman, "DNS over TLS: Initiation and Performance
-              Considerations", draft-ietf-dprive-dns-over-tls-05 (work
-              in progress), January 2016.
+              and P. Hoffman, "Specification for DNS over TLS", draft-
+              ietf-dprive-dns-over-tls-09 (work in progress), March
+              2016.
 
    [I-D.ietf-dprive-dnsodtls]
               Reddy, T., Wing, D., and P. Patil, "DNS over DTLS
-              (DNSoD)", draft-ietf-dprive-dnsodtls-04 (work in
-              progress), January 2016.
+              (DNSoD)", draft-ietf-dprive-dnsodtls-08 (work in
+              progress), July 2016.
 
 
 
 
-Trammell               Expires September 12, 2016              [Page 11]
+Trammell                Expires February 10, 2017              [Page 11]
 
-Internet-Draft                    PINS                        March 2016
+Internet-Draft                    PINS                       August 2016
 
 
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
@@ -669,4 +669,4 @@ Author's Address
 
 
 
-Trammell               Expires September 12, 2016              [Page 12]
+Trammell                Expires February 10, 2017              [Page 12]

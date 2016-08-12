@@ -29,7 +29,7 @@ informative:
     RFC4033:
     RFC5730:
     RFC6761:
-    I-D.ietf-dnsop-edns-client-subnet:
+    RFC7871:
     I-D.ietf-dprive-dns-over-tls:
     I-D.ietf-dprive-dnsodtls:
     LUCID:
@@ -312,14 +312,14 @@ Another is the common practice of DNS-based content distribution, in which an
 authoritative name server gives different answers for the same query depending
 on the network location from which the query was received, or depending on the
 subnet in which the end client originating a query is located (via the EDNS
-Client Subnet extension {{I-D.ietf-dnsop-edns-client-subnet}}). Such
+Client Subnet extension {RFC7871}}). Such
 inconsistency based on client identity or network address may increase query
 linkability (see {{query-linkability}}).
 
 We note that while DNS can be deployed to allow essentially unlimited kinds of
 inconsistency in its responses, there is no protocol support for a query to
 express the kind of consistency it desires, or for a response to explicitly
-note that it is inconsistent. {{I-D.ietf-dnsop-edns-client-subnet}} does allow
+note that it is inconsistent. {{RFC7871}} does allow
 a querier to note that it would specifically like the view of the state of the
 namespace offered to a certain part of the network, and as such can be seen as
 inchoate support for this property.
@@ -412,8 +412,8 @@ expressing these contexts, they remain implicit.
 
 We note that protocol-level support for this context explicit could point
 toward solutions for a variety of problems in currently deployed naming
-services, from generalized solutions with privacy/efficiency tradeoffs to the
-({{I-D.ietf-dnsop-edns-client-subnet}} aside), to explicit redirection to
+services, from generalized solutions with privacy/efficiency tradeoffs
+({RFC7871}} aside), to explicit redirection to
 alternate naming resolution for "special" names {{RFC6761}}.
 
 ## Unicode alone may not be sufficient for distinguishable names

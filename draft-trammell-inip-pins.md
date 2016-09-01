@@ -168,11 +168,12 @@ Authority. This property allows the naming service to scale to the size of the
 Internet, and leads to a tree-structured namespace, where each Delegation is
 itself identified with a Subject at a given level in the namespace.
 
-In the DNS protocol, this federation of authority is implemented using the NS
-RRTYPE, redirecting queries to subordinate authorities recursively to the
-final authority.
+In the DNS protocol, this federation of authority is implemented through
+delegation using the NS RRTYPE, redirecting queries to subordinate authorities
+recursively to the final authority. When DNSSEC is used, the DS RRTYPE is used
+to verify this delegation.
 
-### Unity of Authority
+### Uniqueness of Authority
 
 For a given Subject, there is a single Authority that has the right to
 determine the Associations and/or Delegations for that subject. The unitary
@@ -261,7 +262,7 @@ bandwidth tradeoffs.
 
 When an Authority makes changes to an Association, every query for a given
 Subject returns either the new valid result or a previously valid result,
-with known and predictable bounds on "how previously". Given that additions
+with known and/or predictable bounds on "how previously". Given that additions
 of, changes to, and deletions of associations may have different operational
 causes, different bounds may apply to different operations.
 
@@ -327,7 +328,7 @@ or resumption latency.
 
 The bandwidth cost for looking up a name and other associated data necessary
 for establishing communication with a given Subject, from the point of view of
-the querier, amortized over all queries for all connections, should
+the querier, amortized over all queries for all connections, should not
 significantly impact total bandwidth demand for an application.
 
 ### Query Linkability

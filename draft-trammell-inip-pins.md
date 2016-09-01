@@ -29,9 +29,23 @@ informative:
     RFC4033:
     RFC5730:
     RFC6761:
-    I-D.ietf-dnsop-edns-client-subnet:
+    RFC7871:
     I-D.ietf-dprive-dns-over-tls:
     I-D.ietf-dprive-dnsodtls:
+    LUCID:
+      target: https://www.ietf.org/proceedings/92/slides/slides-92-lucid-0.pdf
+      title: LUCID problem (slides, IETF 92 LUCID BoF)
+      author:
+        -
+          ins: A. Freytag
+        -
+          ins: A. Sullivan
+    IAB-UNICODE7:
+      target: https://www.iab.org/documents/correspondence-reports-documents/2015-2/iab-statement-on-identifiers-and-unicode-7-0-0/
+      title: IAB Statement on Identifiers and Unicode 7.0.0      
+      author:
+        -
+          ins: IAB
 
 --- abstract
 
@@ -154,6 +168,23 @@ possible.
 The following properties are desirable in a naming service providing the
 functions in {{query-interface}} and {{authority-interface}}.
 
+## Semantics
+
+Since the point of a naming service is to replace network-layer identifiers
+with more useful identifiers for humans (whether end users, software
+developers, or network administrators), the Subject names the naming service
+can provide must meet two semantic criteria:
+
+### Meaningfulness 
+
+A naming service must provide the ability to name objects that its human users
+find more meaningful than the objects themselves.
+
+### Distinguishability
+
+A naming service must make it possible to guarantee that two different names
+are easily distinguishable from each other by its human users.
+
 ## Authority
 
 Every Association among names, addresses, and auxiliary data is subject to
@@ -216,11 +247,6 @@ revocation in this case is as consistent as any other change to the DNS.
 Authority at the top level of the namespace tree is delegated according to a
 process such that there is universal agreement throughout the Internet as to
 the subordinates of those Delegations.
-
-[EDITOR'S NOTE: Today, this is the root zone. But note that this property does
-not necessarily imply a single authority at the root as with the present
-arrangement, only that the process by which the root is changed and operated
-leads to a universally consistent result.]
 
 ## Authenticity
 
@@ -287,14 +313,14 @@ Another is the common practice of DNS-based content distribution, in which an
 authoritative name server gives different answers for the same query depending
 on the network location from which the query was received, or depending on the
 subnet in which the end client originating a query is located (via the EDNS
-Client Subnet extension {{I-D.ietf-dnsop-edns-client-subnet}}). Such
+Client Subnet extension {RFC7871}}). Such
 inconsistency based on client identity or network address may increase query
 linkability (see {{query-linkability}}).
 
 We note that while DNS can be deployed to allow essentially unlimited kinds of
 inconsistency in its responses, there is no protocol support for a query to
 express the kind of consistency it desires, or for a response to explicitly
-note that it is inconsistent. {{I-D.ietf-dnsop-edns-client-subnet}} does allow
+note that it is inconsistent. {{RFC7871}} does allow
 a querier to note that it would specifically like the view of the state of the
 namespace offered to a certain part of the network, and as such can be seen as
 inchoate support for this property.
@@ -387,9 +413,21 @@ expressing these contexts, they remain implicit.
 
 We note that protocol-level support for this context explicit could point
 toward solutions for a variety of problems in currently deployed naming
-services, from generalized solutions with privacy/efficiency tradeoffs to the
-({{I-D.ietf-dnsop-edns-client-subnet}} aside), to explicit redirection to
+services, from generalized solutions with privacy/efficiency tradeoffs
+({RFC7871}} aside), to explicit redirection to
 alternate naming resolution for "special" names {{RFC6761}}.
+
+## Unicode alone may not be sufficient for distinguishable names
+
+Allowing names to be encoded in Unicode goes a long way toward meeting the
+meaningfulness property (see {{meaningfulness}} for the majority of speakers
+of human languages. However, as noted by the Internet Architecture Board (see
+{{IAB-UNICODE7}}) and discussed at the Locale-free Unicode Identifiers (LUCID)
+BoF at IETF 92 in Dallas in March 2015 (see {{LUCID}}), it is not in the
+general case sufficient for distinguishability (see {{distinguishability}}).
+An ideal naming service may therefore have to supplement Unicode by providing
+runtime support for disambiguation of queries and assertions where the results
+may be indistinguishable.
 
 # IANA Considerations
 

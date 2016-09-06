@@ -281,6 +281,7 @@ li, p {
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Semantics"/>
 <link href="#rfc.section.5.1.1" rel="Chapter" title="5.1.1 Meaningfulness"/>
 <link href="#rfc.section.5.1.2" rel="Chapter" title="5.1.2 Distinguishability"/>
+<link href="#rfc.section.5.1.3" rel="Chapter" title="5.1.3 Minimal Structure"/>
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Authority"/>
 <link href="#rfc.section.5.2.1" rel="Chapter" title="5.2.1 Federation of Authority"/>
 <link href="#rfc.section.5.2.2" rel="Chapter" title="5.2.2 Uniqueness of Authority"/>
@@ -316,7 +317,7 @@ li, p {
 
   <meta name="dct.creator" content="Trammell, B." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-trammell-inip-pins-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-9-01" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-9-06" />
   <meta name="dct.abstract" content="This document specifies a set of necessary functions and desirable properties of an ideal system for resolving names to addresses and associated information for establishing communication associations in the Internet. For each property, it briefly explains the rationale behind it, and how the property is or could be met with the present Domain Name System. It is intended to start a discussion within the IAB&#8217;s Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs by returning to first principles." />
   <meta name="description" content="This document specifies a set of necessary functions and desirable properties of an ideal system for resolving names to addresses and associated information for establishing communication associations in the Internet. For each property, it briefly explains the rationale behind it, and how the property is or could be met with the present Domain Name System. It is intended to start a discussion within the IAB&#8217;s Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs by returning to first principles." />
 
@@ -337,10 +338,10 @@ li, p {
 </tr>
 <tr>
   <td class="left">Intended status: Informational</td>
-  <td class="right">September 01, 2016</td>
+  <td class="right">September 06, 2016</td>
 </tr>
 <tr>
-  <td class="left">Expires: March 5, 2017</td>
+  <td class="left">Expires: March 10, 2017</td>
   <td class="right"></td>
 </tr>
 
@@ -361,7 +362,7 @@ li, p {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on March 5, 2017.</p>
+<p>This Internet-Draft will expire on March 10, 2017.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -386,6 +387,7 @@ li, p {
 <ul><li>5.1.   <a href="#rfc.section.5.1">Semantics</a></li>
 <ul><li>5.1.1.   <a href="#rfc.section.5.1.1">Meaningfulness</a></li>
 <li>5.1.2.   <a href="#rfc.section.5.1.2">Distinguishability</a></li>
+<li>5.1.3.   <a href="#rfc.section.5.1.3">Minimal Structure</a></li>
 </ul><li>5.2.   <a href="#rfc.section.5.2">Authority</a></li>
 <ul><li>5.2.1.   <a href="#rfc.section.5.2.1">Federation of Authority</a></li>
 <li>5.2.2.   <a href="#rfc.section.5.2.2">Uniqueness of Authority</a></li>
@@ -460,6 +462,8 @@ li, p {
 <p id="rfc.section.5.1.1.p.1">A naming service must provide the ability to name objects that its human users find more meaningful than the objects themselves.</p>
 <h1 id="rfc.section.5.1.2"><a href="#rfc.section.5.1.2">5.1.2.</a> <a href="#distinguishability" id="distinguishability">Distinguishability</a></h1>
 <p id="rfc.section.5.1.2.p.1">A naming service must make it possible to guarantee that two different names are easily distinguishable from each other by its human users.</p>
+<h1 id="rfc.section.5.1.3"><a href="#rfc.section.5.1.3">5.1.3.</a> <a href="#minimal-structure" id="minimal-structure">Minimal Structure</a></h1>
+<p id="rfc.section.5.1.3.p.1">A naming service should impose as little structure on the names it supports as practical in order to be universally applicable. Naming services that impose a given organizational structure on the names expressible using the service will not translate well to societies where that organizational structure is not prevalent.</p>
 <h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#authority" id="authority">Authority</a></h1>
 <p id="rfc.section.5.2.p.1">Every Association among names, addresses, and auxiliary data is subject to some Authority: an entity which has the right to determine which Associations and Subjects exist in its namespace. The following are properties of Authorities in our ideal naming service:</p>
 <h1 id="rfc.section.5.2.1"><a href="#rfc.section.5.2.1">5.2.1.</a> <a href="#federation-of-authority" id="federation-of-authority">Federation of Authority</a></h1>
@@ -530,9 +534,9 @@ li, p {
 <h1 id="rfc.section.6.3"><a href="#rfc.section.6.3">6.3.</a> <a href="#unicode-alone-may-not-be-sufficient-for-distinguishable-names" id="unicode-alone-may-not-be-sufficient-for-distinguishable-names">Unicode alone may not be sufficient for distinguishable names</a></h1>
 <p id="rfc.section.6.3.p.1">Allowing names to be encoded in Unicode goes a long way toward meeting the meaningfulness property (see <a href="#meaningfulness">Section 5.1.1</a> for the majority of speakers of human languages. However, as noted by the Internet Architecture Board (see <a href="#IAB-UNICODE7">[IAB-UNICODE7]</a>) and discussed at the Locale-free Unicode Identifiers (LUCID) BoF at IETF 92 in Dallas in March 2015 (see <a href="#LUCID">[LUCID]</a>), it is not in the general case sufficient for distinguishability (see <a href="#distinguishability">Section 5.1.2</a>).  An ideal naming service may therefore have to supplement Unicode by providing runtime support for disambiguation of queries and assertions where the results may be indistinguishable.</p>
 <h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a></h1>
-<p id="rfc.section.7.p.1">This document has no actions for IANA</p>
+<p id="rfc.section.7.p.1">This document has no actions for IANA.</p>
 <h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
-<p id="rfc.section.8.p.1">[EDITOR&#8217;S NOTE: todo]</p>
+<p id="rfc.section.8.p.1">Protocols implementing name resolution systems that meet these ideal properties will have to consider tradeoffs, especially with respect to privacy (<a href="#query-linkability">Section 5.5.4</a>) versus performance, as in <a href="#explicit-tradeoff">Section 5.5.5</a>. Many properties are security and privacy relevant. All the properties in <a href="#authenticity">Section 5.3</a> must hold for a client to be able to trust that assertions about a name are as intended by the authority for that name.  <a href="#distinguishability">Section 5.1.2</a> specifies a property which, when it does not hold, may be exploitable for phishing attacks, and <a href="#transparency-of-authority">Section 5.2.3</a> specifies a property which may ease operational defense against malware abuse of the naming system.</p>
 <h1 id="rfc.section.9"><a href="#rfc.section.9">9.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a></h1>
 <p id="rfc.section.9.p.1">This document is, in part, an output of design work on naming services at the Network Security Group at ETH Zurich. Thanks to the group, including Daniele Asoni, Steve Matsumoto, and Stephen Shirley, for discussions leading to this document. Thanks as well to Ted Hardie, Wendy Selzter, Andrew Sullivan, and Suzanne Woolf for input and feedback.</p>
 <h1 id="rfc.references"><a href="#rfc.references">10.</a> Informative References</h1>

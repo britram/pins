@@ -4,8 +4,8 @@
 
 Names and Identifiers Program                                B. Trammell
 Internet-Draft                                                ETH Zurich
-Intended status: Informational                        September 01, 2016
-Expires: March 5, 2017
+Intended status: Informational                        September 06, 2016
+Expires: March 10, 2017
 
 
                  Properties of an Ideal Naming Service
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 5, 2017.
+   This Internet-Draft will expire on March 10, 2017.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Trammell                  Expires March 5, 2017                 [Page 1]
+Trammell                 Expires March 10, 2017                 [Page 1]
 
 Internet-Draft                    PINS                    September 2016
 
@@ -78,15 +78,16 @@ Table of Contents
      5.1.  Semantics . . . . . . . . . . . . . . . . . . . . . . . .   5
        5.1.1.  Meaningfulness  . . . . . . . . . . . . . . . . . . .   5
        5.1.2.  Distinguishability  . . . . . . . . . . . . . . . . .   6
+       5.1.3.  Minimal Structure . . . . . . . . . . . . . . . . . .   6
      5.2.  Authority . . . . . . . . . . . . . . . . . . . . . . . .   6
        5.2.1.  Federation of Authority . . . . . . . . . . . . . . .   6
        5.2.2.  Uniqueness of Authority . . . . . . . . . . . . . . .   6
-       5.2.3.  Transparency of Authority . . . . . . . . . . . . . .   6
+       5.2.3.  Transparency of Authority . . . . . . . . . . . . . .   7
        5.2.4.  Revocability of Authority . . . . . . . . . . . . . .   7
        5.2.5.  Consensus on Root of Authority  . . . . . . . . . . .   7
      5.3.  Authenticity  . . . . . . . . . . . . . . . . . . . . . .   7
        5.3.1.  Authenticity of Delegation  . . . . . . . . . . . . .   7
-       5.3.2.  Authenticity of Response  . . . . . . . . . . . . . .   7
+       5.3.2.  Authenticity of Response  . . . . . . . . . . . . . .   8
        5.3.3.  Authenticity of Negative Response . . . . . . . . . .   8
      5.4.  Consistency . . . . . . . . . . . . . . . . . . . . . . .   8
        5.4.1.  Dynamic Consistency . . . . . . . . . . . . . . . . .   8
@@ -94,26 +95,26 @@ Table of Contents
      5.5.  Performance Properties  . . . . . . . . . . . . . . . . .   9
        5.5.1.  Availability  . . . . . . . . . . . . . . . . . . . .   9
        5.5.2.  Lookup Latency  . . . . . . . . . . . . . . . . . . .   9
-       5.5.3.  Bandwidth Efficiency  . . . . . . . . . . . . . . . .   9
+       5.5.3.  Bandwidth Efficiency  . . . . . . . . . . . . . . . .  10
        5.5.4.  Query Linkability . . . . . . . . . . . . . . . . . .  10
        5.5.5.  Explicit Tradeoff . . . . . . . . . . . . . . . . . .  10
    6.  Observations  . . . . . . . . . . . . . . . . . . . . . . . .  10
-     6.1.  Delegation and redirection are separate operations  . . .  10
+     6.1.  Delegation and redirection are separate operations  . . .  11
      6.2.  Queries and assertion contexts are presently implicit . .  11
      6.3.  Unicode alone may not be sufficient for distinguishable
            names . . . . . . . . . . . . . . . . . . . . . . . . . .  11
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-   9.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  11
-   10. Informative References  . . . . . . . . . . . . . . . . . . .  12
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
+   9.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  12
 
 
 
-Trammell                  Expires March 5, 2017                 [Page 2]
+Trammell                 Expires March 10, 2017                 [Page 2]
 
 Internet-Draft                    PINS                    September 2016
 
 
+   10. Informative References  . . . . . . . . . . . . . . . . . . .  12
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
@@ -164,8 +165,7 @@ Internet-Draft                    PINS                    September 2016
 
 
 
-
-Trammell                  Expires March 5, 2017                 [Page 3]
+Trammell                 Expires March 10, 2017                 [Page 3]
 
 Internet-Draft                    PINS                    September 2016
 
@@ -221,7 +221,7 @@ Internet-Draft                    PINS                    September 2016
 
 
 
-Trammell                  Expires March 5, 2017                 [Page 4]
+Trammell                 Expires March 10, 2017                 [Page 4]
 
 Internet-Draft                    PINS                    September 2016
 
@@ -277,7 +277,7 @@ Internet-Draft                    PINS                    September 2016
 
 
 
-Trammell                  Expires March 5, 2017                 [Page 5]
+Trammell                 Expires March 10, 2017                 [Page 5]
 
 Internet-Draft                    PINS                    September 2016
 
@@ -287,6 +287,14 @@ Internet-Draft                    PINS                    September 2016
    A naming service must make it possible to guarantee that two
    different names are easily distinguishable from each other by its
    human users.
+
+5.1.3.  Minimal Structure
+
+   A naming service should impose as little structure on the names it
+   supports as practical in order to be universally applicable.  Naming
+   services that impose a given organizational structure on the names
+   expressible using the service will not translate well to societies
+   where that organizational structure is not prevalent.
 
 5.2.  Authority
 
@@ -321,6 +329,15 @@ Internet-Draft                    PINS                    September 2016
    [RFC5730] to modify entries in the zones under the authority of a
    top-level domain registry, complicates this somewhat.
 
+
+
+
+
+Trammell                 Expires March 10, 2017                 [Page 6]
+
+Internet-Draft                    PINS                    September 2016
+
+
 5.2.3.  Transparency of Authority
 
    A querier can determine the identity of the Authority for a given
@@ -330,14 +347,6 @@ Internet-Draft                    PINS                    September 2016
 
    In DNS, the authoritative name server(s) to which a query is
    delegated via the NS RRTYPE are known.  However, we note that in the
-
-
-
-Trammell                  Expires March 5, 2017                 [Page 6]
-
-Internet-Draft                    PINS                    September 2016
-
-
    case of authorities which delegate the ability to write to the zone
    to other entities (i.e., the registry-registrar relationship), the
    current DNS provides no facility for a querier to understand on whose
@@ -376,6 +385,15 @@ Internet-Draft                    PINS                    September 2016
 
    Authenticity of delegation in DNS is provided by DNSSEC [RFC4033].
 
+
+
+
+
+Trammell                 Expires March 10, 2017                 [Page 7]
+
+Internet-Draft                    PINS                    September 2016
+
+
 5.3.2.  Authenticity of Response
 
    The authenticity of every answer is verifiable by the querier.  The
@@ -383,16 +401,6 @@ Internet-Draft                    PINS                    September 2016
    correct according to the Authority for the Subject of the query.
 
    Authenticity of response in DNS is provided by DNSSEC.
-
-
-
-
-
-
-Trammell                  Expires March 5, 2017                 [Page 7]
-
-Internet-Draft                    PINS                    September 2016
-
 
 5.3.3.  Authenticity of Negative Response
 
@@ -433,6 +441,15 @@ Internet-Draft                    PINS                    September 2016
 
    One example of such desirable inconsistency is the common practice of
    "split horizon" DNS, where an organization makes internal names
+
+
+
+
+Trammell                 Expires March 10, 2017                 [Page 8]
+
+Internet-Draft                    PINS                    September 2016
+
+
    available on its own network, but only the names of externally-
    visible subjects available to the Internet at large.
 
@@ -441,15 +458,6 @@ Internet-Draft                    PINS                    September 2016
    same query depending on the network location from which the query was
    received, or depending on the subnet in which the end client
    originating a query is located (via the EDNS Client Subnet extension
-
-
-
-
-Trammell                  Expires March 5, 2017                 [Page 8]
-
-Internet-Draft                    PINS                    September 2016
-
-
    {RFC7871}}).  Such inconsistency based on client identity or network
    address may increase query linkability (see Section 5.5.4).
 
@@ -488,6 +496,16 @@ Internet-Draft                    PINS                    September 2016
    amortized over all queries for all connections, should not
    significantly impact connection setup or resumption latency.
 
+
+
+
+
+
+Trammell                 Expires March 10, 2017                 [Page 9]
+
+Internet-Draft                    PINS                    September 2016
+
+
 5.5.3.  Bandwidth Efficiency
 
    The bandwidth cost for looking up a name and other associated data
@@ -495,16 +513,6 @@ Internet-Draft                    PINS                    September 2016
    the point of view of the querier, amortized over all queries for all
    connections, should not significantly impact total bandwidth demand
    for an application.
-
-
-
-
-
-
-Trammell                  Expires March 5, 2017                 [Page 9]
-
-Internet-Draft                    PINS                    September 2016
-
 
 5.5.4.  Query Linkability
 
@@ -544,6 +552,16 @@ Internet-Draft                    PINS                    September 2016
    This section contains random observations that might inform future
    work.
 
+
+
+
+
+
+Trammell                 Expires March 10, 2017                [Page 10]
+
+Internet-Draft                    PINS                    September 2016
+
+
 6.1.  Delegation and redirection are separate operations
 
    Any system which can provide the authenticity properties in
@@ -554,14 +572,6 @@ Internet-Draft                    PINS                    September 2016
    signatures back to the root of authority, the location within the
    infrastructure where an authoritative mapping "lives" is no longer
    bound to a specific name server.  While the present design of DNS
-
-
-
-Trammell                  Expires March 5, 2017                [Page 10]
-
-Internet-Draft                    PINS                    September 2016
-
-
    does have its own scalability advantages, this implication allows a
    much larger design space to be explored for future name service work,
    as a Delegation need not always be implemented via redirection to
@@ -597,27 +607,39 @@ Internet-Draft                    PINS                    September 2016
    for disambiguation of queries and assertions where the results may be
    indistinguishable.
 
+
+
+
+
+
+
+Trammell                 Expires March 10, 2017                [Page 11]
+
+Internet-Draft                    PINS                    September 2016
+
+
 7.  IANA Considerations
 
-   This document has no actions for IANA
+   This document has no actions for IANA.
 
 8.  Security Considerations
 
-   [EDITOR'S NOTE: todo]
+   Protocols implementing name resolution systems that meet these ideal
+   properties will have to consider tradeoffs, especially with respect
+   to privacy (Section 5.5.4) versus performance, as in Section 5.5.5.
+   Many properties are security and privacy relevant.  All the
+   properties in Section 5.3 must hold for a client to be able to trust
+   that assertions about a name are as intended by the authority for
+   that name.  Section 5.1.2 specifies a property which, when it does
+   not hold, may be exploitable for phishing attacks, and Section 5.2.3
+   specifies a property which may ease operational defense against
+   malware abuse of the naming system.
 
 9.  Acknowledgments
 
    This document is, in part, an output of design work on naming
    services at the Network Security Group at ETH Zurich.  Thanks to the
    group, including Daniele Asoni, Steve Matsumoto, and Stephen Shirley,
-
-
-
-Trammell                  Expires March 5, 2017                [Page 11]
-
-Internet-Draft                    PINS                    September 2016
-
-
    for discussions leading to this document.  Thanks as well to Ted
    Hardie, Wendy Selzter, Andrew Sullivan, and Suzanne Woolf for input
    and feedback.
@@ -641,6 +663,17 @@ Internet-Draft                    PINS                    September 2016
               reports-documents/2015-2/iab-statement-on-identifiers-and-
               unicode-7-0-0/>.
 
+
+
+
+
+
+
+Trammell                 Expires March 10, 2017                [Page 12]
+
+Internet-Draft                    PINS                    September 2016
+
+
    [LUCID]    Freytag, A. and A. Sullivan, "LUCID problem (slides, IETF
               92 LUCID BoF)", n.d.,
               <https://www.ietf.org/proceedings/92/slides/slides-92-
@@ -662,17 +695,6 @@ Internet-Draft                    PINS                    September 2016
    [RFC6761]  Cheshire, S. and M. Krochmal, "Special-Use Domain Names",
               RFC 6761, DOI 10.17487/RFC6761, February 2013,
               <http://www.rfc-editor.org/info/rfc6761>.
-
-
-
-
-
-
-
-Trammell                  Expires March 5, 2017                [Page 12]
-
-Internet-Draft                    PINS                    September 2016
-
 
    [RFC7871]  Contavalli, C., van der Gaast, W., Lawrence, D., and W.
               Kumari, "Client Subnet in DNS Queries", RFC 7871,
@@ -703,26 +725,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Trammell                  Expires March 5, 2017                [Page 13]
+Trammell                 Expires March 10, 2017                [Page 13]

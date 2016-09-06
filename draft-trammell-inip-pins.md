@@ -185,6 +185,14 @@ find more meaningful than the objects themselves.
 A naming service must make it possible to guarantee that two different names
 are easily distinguishable from each other by its human users.
 
+### Minimal Structure
+
+A naming service should impose as little structure on the names it supports as
+practical in order to be universally applicable. Naming services that impose a
+given organizational structure on the names expressible using the service will
+not translate well to societies where that organizational structure is not
+prevalent.
+
 ## Authority
 
 Every Association among names, addresses, and auxiliary data is subject to
@@ -431,11 +439,20 @@ may be indistinguishable.
 
 # IANA Considerations
 
-This document has no actions for IANA
+This document has no actions for IANA.
 
 # Security Considerations
 
-[EDITOR'S NOTE: todo]
+Protocols implementing name resolution systems that meet these ideal
+properties will have to consider tradeoffs, especially with respect to privacy
+({{query-linkability}}) versus performance, as in {{explicit-tradeoff}}. Many
+properties are security and privacy relevant. All the properties in
+{{authenticity}} must hold for a client to be able to trust that assertions
+about a name are as intended by the authority for that name.
+{{distinguishability}} specifies a property which, when it does not hold, may
+be exploitable for phishing attacks, and {{transparency-of-authority}}
+specifies a property which may ease operational defense against malware abuse
+of the naming system.
 
 # Acknowledgments
 

@@ -1,13 +1,11 @@
 ---
 title: Properties of an Ideal Naming Service
 abbrev: PINS
-docname: draft-trammell-inip-pins-latest
+docname: draft-trammell-inip-pins-03
 date: 
 category: info
 
 ipr: trust200902
-area: Internet Architecture Board
-workgroup: Names and Identifiers Program
 keyword: Internet-Draft
 
 stand_alone: yes
@@ -30,6 +28,8 @@ informative:
     RFC5730:
     RFC6761:
     RFC7871:
+    RFC7858:
+    RFC8094:
     I-D.ietf-dprive-dns-over-tls:
     I-D.ietf-dprive-dnsodtls:
     LUCID:
@@ -125,7 +125,7 @@ mappings exist within the in-addr.arpa. zone, and IPv6 mappings in the
 ip6.arpa. zone. This mechanism has the disadvantage that delegations in IPv4
 only happen on octet (8-bit) boundaries, and in IPv6 only happen on hex digit
 (4-bit) boundaries, which make delegations on other prefixes operationally
-difficult. [EDITOR'S NOTE: is there a citation for practical workarounds here?]
+difficult.
 
 ## Name to Name
 
@@ -370,10 +370,7 @@ significantly impact total bandwidth demand for an application.
 It should be costly for an adversary to monitor the infrastructure in order to
 link specific queries to specific queriers.
 
-The DPRIVE working group is currently working on approaches to improve
-confidentiality of stub- to recursive-resolver communications in order to
-reduce query linkability; see e.g. {{I-D.ietf-dprive-dns-over-tls}}, 
-{{I-D.ietf-dprive-dnsodtls}}.
+DNS over TLS {{RFC7858}} and DNS over DTLS {{RFC8094}} provide this property between a querier and a recursive resolver; mixing by the recursive helps with mitigating upstream linkability.
 
 ### Explicit Tradeoff
 
@@ -387,6 +384,12 @@ one performance property by accepting a tradeoff in another, including:
 
 There is no support for explicit tradeoffs in performance properties available
 to clients in the present DNS.
+
+## Trust in Infrastructure
+
+A querier should not need to trust any entity other than the authority as to the correctness of association information provided by the naming service. Specifically, the querier should not need to trust any intermediary of infrastructure between itself and the authority, other than that under its own control.
+
+DNS does not provide this property without DNSSEC.
 
 # Observations
 

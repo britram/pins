@@ -7,6 +7,7 @@
 
   <title>Properties of an Ideal Naming Service</title>
 
+  
 <style type="text/css">/*<![CDATA[*/
 @viewport {
   zoom: 1.0;
@@ -73,7 +74,11 @@ ul.toc li {
   padding-bottom: 5px;
   margin: 0;
 }
-ul.toc, ul.toc ul {
+ul.toc ul {
+  margin: 0;
+}
+/* xml2rfc nests ul directly inside ul which messes with the style badly */
+ul.toc, ul.toc>ul, ul.toc ul>ul {
   margin: 0 0 0 1.5em;
 }
 
@@ -208,6 +213,9 @@ ol, ul, li, p {
 li, p {
   margin-left: 0;
 }
+address {
+  font-style: normal;
+}
 
 .github-fork-ribbon-wrapper {
   display: none;
@@ -265,7 +273,8 @@ li, p {
   .github-fork-ribbon-wrapper {
     position: fixed;
   }
-/*]]>*/</style>
+  /*]]>*/</style>
+
 
   <link href="#rfc.toc" rel="Contents"/>
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
@@ -301,6 +310,7 @@ li, p {
 <link href="#rfc.section.5.5.3" rel="Chapter" title="5.5.3 Bandwidth Efficiency"/>
 <link href="#rfc.section.5.5.4" rel="Chapter" title="5.5.4 Query Linkability"/>
 <link href="#rfc.section.5.5.5" rel="Chapter" title="5.5.5 Explicit Tradeoff"/>
+<link href="#rfc.section.5.6" rel="Chapter" title="5.6 Trust in Infrastructure"/>
 <link href="#rfc.section.6" rel="Chapter" title="6 Observations"/>
 <link href="#rfc.section.6.1" rel="Chapter" title="6.1 Delegation and redirection are separate operations"/>
 <link href="#rfc.section.6.2" rel="Chapter" title="6.2 Queries and assertion contexts are presently implicit"/>
@@ -312,12 +322,12 @@ li, p {
 <link href="#rfc.authors" rel="Chapter"/>
 
 
-  <meta name="generator" content="xml2rfc version 2.5.1 - http://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.5.2 - http://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Trammell, B." />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-trammell-inip-pins-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-9-06" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-trammell-inip-pins-03" />
+  <meta name="dct.issued" scheme="ISO8601" content="2017-3-13" />
   <meta name="dct.abstract" content="This document specifies a set of necessary functions and desirable properties of an ideal system for resolving names to addresses and associated information for establishing communication associations in the Internet. For each property, it briefly explains the rationale behind it, and how the property is or could be met with the present Domain Name System. It is intended to start a discussion within the IAB&#8217;s Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs by returning to first principles." />
   <meta name="description" content="This document specifies a set of necessary functions and desirable properties of an ideal system for resolving names to addresses and associated information for establishing communication associations in the Internet. For each property, it briefly explains the rationale behind it, and how the property is or could be met with the present Domain Name System. It is intended to start a discussion within the IAB&#8217;s Names and Identifiers program about gaps between the present reality of DNS and the naming service the Internet needs by returning to first principles." />
 
@@ -329,7 +339,7 @@ li, p {
     <tbody>
     
     	<tr>
-  <td class="left">Names and Identifiers Program</td>
+  <td class="left">Network Working Group</td>
   <td class="right">B. Trammell</td>
 </tr>
 <tr>
@@ -338,10 +348,10 @@ li, p {
 </tr>
 <tr>
   <td class="left">Intended status: Informational</td>
-  <td class="right">September 06, 2016</td>
+  <td class="right">March 13, 2017</td>
 </tr>
 <tr>
-  <td class="left">Expires: March 10, 2017</td>
+  <td class="left">Expires: September 14, 2017</td>
   <td class="right"></td>
 </tr>
 
@@ -350,7 +360,7 @@ li, p {
   </table>
 
   <p class="title">Properties of an Ideal Naming Service<br />
-  <span class="filename">draft-trammell-inip-pins-latest</span></p>
+  <span class="filename">draft-trammell-inip-pins-03</span></p>
   
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
@@ -362,11 +372,11 @@ li, p {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on March 10, 2017.</p>
+<p>This Internet-Draft will expire on September 14, 2017.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
-<p>Copyright (c) 2016 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>Copyright (c) 2017 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
 
   
@@ -407,7 +417,8 @@ li, p {
 <li>5.5.3.   <a href="#rfc.section.5.5.3">Bandwidth Efficiency</a></li>
 <li>5.5.4.   <a href="#rfc.section.5.5.4">Query Linkability</a></li>
 <li>5.5.5.   <a href="#rfc.section.5.5.5">Explicit Tradeoff</a></li>
-</ul></ul><li>6.   <a href="#rfc.section.6">Observations</a></li>
+</ul><li>5.6.   <a href="#rfc.section.5.6">Trust in Infrastructure</a></li>
+</ul><li>6.   <a href="#rfc.section.6">Observations</a></li>
 <ul><li>6.1.   <a href="#rfc.section.6.1">Delegation and redirection are separate operations</a></li>
 <li>6.2.   <a href="#rfc.section.6.2">Queries and assertion contexts are presently implicit</a></li>
 <li>6.3.   <a href="#rfc.section.6.3">Unicode alone may not be sufficient for distinguishable names</a></li>
@@ -442,7 +453,7 @@ li, p {
 <p id="rfc.section.3.1.p.2">This mapping is implemented in the DNS protocol via the A and AAAA RRTYPES.</p>
 <h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#address-to-name" id="address-to-name">Address to Name</a></h1>
 <p id="rfc.section.3.2.p.1">Given an Subject address, the naming service returns a set of names associated with that address, if such an association exists, where the association is determined by the authority for that address.</p>
-<p id="rfc.section.3.2.p.2">This mapping is implemented in the DNS protocol via the PTR RRTYPE. IPv4 mappings exist within the in-addr.arpa. zone, and IPv6 mappings in the ip6.arpa. zone. This mechanism has the disadvantage that delegations in IPv4 only happen on octet (8-bit) boundaries, and in IPv6 only happen on hex digit (4-bit) boundaries, which make delegations on other prefixes operationally difficult. [EDITOR&#8217;S NOTE: is there a citation for practical workarounds here?]</p>
+<p id="rfc.section.3.2.p.2">This mapping is implemented in the DNS protocol via the PTR RRTYPE. IPv4 mappings exist within the in-addr.arpa. zone, and IPv6 mappings in the ip6.arpa. zone. This mechanism has the disadvantage that delegations in IPv4 only happen on octet (8-bit) boundaries, and in IPv6 only happen on hex digit (4-bit) boundaries, which make delegations on other prefixes operationally difficult.</p>
 <h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#name-to-name" id="name-to-name">Name to Name</a></h1>
 <p id="rfc.section.3.3.p.1">Given a Subject name, the naming service returns a set of object names associated with that name, if such an association exists, where the association is determined by the authority for the subject name.</p>
 <p id="rfc.section.3.3.p.2">This mapping is implemented in the DNS protocol via the CNAME RRTYPE. CNAME does not allow the association of multiple object names with a single subject, and CNAME may not combine with other RRTYPEs (e.g. NS, MX) arbitrarily.</p>
@@ -512,7 +523,7 @@ li, p {
 <p id="rfc.section.5.5.3.p.1">The bandwidth cost for looking up a name and other associated data necessary for establishing communication with a given Subject, from the point of view of the querier, amortized over all queries for all connections, should not significantly impact total bandwidth demand for an application.</p>
 <h1 id="rfc.section.5.5.4"><a href="#rfc.section.5.5.4">5.5.4.</a> <a href="#query-linkability" id="query-linkability">Query Linkability</a></h1>
 <p id="rfc.section.5.5.4.p.1">It should be costly for an adversary to monitor the infrastructure in order to link specific queries to specific queriers.</p>
-<p id="rfc.section.5.5.4.p.2">The DPRIVE working group is currently working on approaches to improve confidentiality of stub- to recursive-resolver communications in order to reduce query linkability; see e.g. <a href="#I-D.ietf-dprive-dns-over-tls">[I-D.ietf-dprive-dns-over-tls]</a>, <a href="#I-D.ietf-dprive-dnsodtls">[I-D.ietf-dprive-dnsodtls]</a>.</p>
+<p id="rfc.section.5.5.4.p.2">DNS over TLS <a href="#RFC7858">[RFC7858]</a> and DNS over DTLS <a href="#RFC8094">[RFC8094]</a> provide this property between a querier and a recursive resolver; mixing by the recursive helps with mitigating upstream linkability.</p>
 <h1 id="rfc.section.5.5.5"><a href="#rfc.section.5.5.5">5.5.5.</a> <a href="#explicit-tradeoff" id="explicit-tradeoff">Explicit Tradeoff</a></h1>
 <p id="rfc.section.5.5.5.p.1">A querier should be able to indicate the desire for a benefit with respect to one performance property by accepting a tradeoff in another, including:</p>
 <p/>
@@ -524,6 +535,9 @@ li, p {
   <li>Reduced aggregate bandwidth use for increased latency and/or reduced dynamic consistency</li>
 </ul>
 <p id="rfc.section.5.5.5.p.3">There is no support for explicit tradeoffs in performance properties available to clients in the present DNS.</p>
+<h1 id="rfc.section.5.6"><a href="#rfc.section.5.6">5.6.</a> <a href="#trust-in-infrastructure" id="trust-in-infrastructure">Trust in Infrastructure</a></h1>
+<p id="rfc.section.5.6.p.1">A querier should not need to trust any entity other than the authority as to the correctness of association information provided by the naming service. Specifically, the querier should not need to trust any intermediary of infrastructure between itself and the authority, other than that under its own control.</p>
+<p id="rfc.section.5.6.p.2">DNS does not provide this property without DNSSEC.</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#observations" id="observations">Observations</a></h1>
 <p id="rfc.section.6.p.1">On a cursory examination, many of the properties of our ideal name service can be met, or could be met, by the present DNS protocol or extensions thereto. We note that there are further possibilities for the future evolution of naming services meeting these properties. This section contains random observations that might inform future work.</p>
 <h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#delegation-and-redirection-are-separate-operations" id="delegation-and-redirection-are-separate-operations">Delegation and redirection are separate operations</a></h1>
@@ -552,7 +566,7 @@ li, p {
       <td class="reference">
         <b id="I-D.ietf-dprive-dnsodtls">[I-D.ietf-dprive-dnsodtls]</b>
       </td>
-      <td class="top"><a>Reddy, T.</a>, <a>Wing, D.</a> and <a>P. Patil</a>, "<a href="http://tools.ietf.org/html/draft-ietf-dprive-dnsodtls-10">Specification for DNS over Datagram Transport Layer Security (DTLS)</a>", Internet-Draft draft-ietf-dprive-dnsodtls-10, August 2016.</td>
+      <td class="top"><a>Reddy, T.</a>, <a>Wing, D.</a> and <a>P. Patil</a>, "<a href="http://tools.ietf.org/html/draft-ietf-dprive-dnsodtls-15">Specification for DNS over Datagram Transport Layer Security (DTLS)</a>", Internet-Draft draft-ietf-dprive-dnsodtls-15, December 2016.</td>
     </tr>
     <tr>
       <td class="reference">
@@ -592,9 +606,21 @@ li, p {
     </tr>
     <tr>
       <td class="reference">
+        <b id="RFC7858">[RFC7858]</b>
+      </td>
+      <td class="top"><a>Hu, Z.</a>, <a>Zhu, L.</a>, <a>Heidemann, J.</a>, <a>Mankin, A.</a>, <a>Wessels, D.</a> and <a>P. Hoffman</a>, "<a href="http://tools.ietf.org/html/rfc7858">Specification for DNS over Transport Layer Security (TLS)</a>", RFC 7858, DOI 10.17487/RFC7858, May 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
         <b id="RFC7871">[RFC7871]</b>
       </td>
       <td class="top"><a>Contavalli, C.</a>, <a>van der Gaast, W.</a>, <a>Lawrence, D.</a> and <a>W. Kumari</a>, "<a href="http://tools.ietf.org/html/rfc7871">Client Subnet in DNS Queries</a>", RFC 7871, DOI 10.17487/RFC7871, May 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC8094">[RFC8094]</b>
+      </td>
+      <td class="top"><a>Reddy, T.</a>, <a>Wing, D.</a> and <a>P. Patil</a>, "<a href="http://tools.ietf.org/html/rfc8094">DNS over Datagram Transport Layer Security (DTLS)</a>", RFC 8094, DOI 10.17487/RFC8094, February 2017.</td>
     </tr>
   </tbody>
 </table>

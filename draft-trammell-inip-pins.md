@@ -1,7 +1,7 @@
 ---
 title: Properties of an Ideal Naming Service
 abbrev: PINS
-docname: draft-trammell-inip-pins-03
+docname: draft-trammell-inip-pins-latest
 date: 
 category: info
 
@@ -92,8 +92,6 @@ The following capitalized terms are defined and used in this document:
 - Authority: An entity that has the right to determine which Associations exist within its namespace
 
 - Delegation: An Association that indicates that an Authority has given the right to make assertions about the Associations within the part of a namespace identified by a Subject to a subordinate Authority.
-
-[EDITOR'S NOTE: need to make a terminology unification pass]
 
 # Query Interface
 
@@ -303,7 +301,9 @@ causes, different bounds may apply to different operations.
 The time-to-live (TTL) on a resource record in DNS provides a mechanism for
 expiring old resource records. We note that this mechanism makes additions to
 the system propagate faster than changes and deletions, which may not be a
-desirable property.
+desirable property. However, as no context information is explicitly available
+in DNS, the DNS cannot be said to be dynamically consistent, as different
+implicitly inconsistent views of an association may be persistent.
 
 ### Explicit Inconsistency
 
@@ -325,13 +325,25 @@ Client Subnet extension {RFC7871}}). Such
 inconsistency based on client identity or network address may increase query
 linkability (see {{query-linkability}}).
 
-We note that while DNS can be deployed to allow essentially unlimited kinds of
+These forms of inconsistency are implicit, not explicit, in the current DNS. We
+note that while DNS can be deployed to allow essentially unlimited kinds of
 inconsistency in its responses, there is no protocol support for a query to
-express the kind of consistency it desires, or for a response to explicitly
-note that it is inconsistent. {{RFC7871}} does allow
-a querier to note that it would specifically like the view of the state of the
-namespace offered to a certain part of the network, and as such can be seen as
-inchoate support for this property.
+express the kind of consistency it desires, or for a response to explicitly note
+that it is inconsistent. {{RFC7871}} does allow a querier to note that it would
+specifically like the view of the state of the namespace offered to a certain
+part of the network, and as such can be seen as inchoate support for this
+property.
+
+### Global Invariance
+
+An Association which is not intended to be explicitly inconsistent by the
+Authority issuing it must return the same result for every Query for it,
+regardless of the identity or location of the querier.
+
+This property is not provided by DNS, as it depends on the robust support on
+the Explicit Inconsistency property above. Examples of global invariance
+failures include geofencing and DNS-based censorship ordered by a local
+jurisdiction.
 
 ## Performance Properties
 
@@ -370,7 +382,9 @@ significantly impact total bandwidth demand for an application.
 It should be costly for an adversary to monitor the infrastructure in order to
 link specific queries to specific queriers.
 
-DNS over TLS {{RFC7858}} and DNS over DTLS {{RFC8094}} provide this property between a querier and a recursive resolver; mixing by the recursive helps with mitigating upstream linkability.
+DNS over TLS {{RFC7858}} and DNS over DTLS {{RFC8094}} provide this property
+between a querier and a recursive resolver; mixing by the recursive helps with
+mitigating upstream linkability.
 
 ### Explicit Tradeoff
 
@@ -387,9 +401,16 @@ to clients in the present DNS.
 
 ## Trust in Infrastructure
 
-A querier should not need to trust any entity other than the authority as to the correctness of association information provided by the naming service. Specifically, the querier should not need to trust any intermediary of infrastructure between itself and the authority, other than that under its own control.
+A querier should not need to trust any entity other than the authority as to the
+correctness of association information provided by the naming service.
+Specifically, the querier should not need to trust any intermediary of
+infrastructure between itself and the authority, other than that under its own
+control.
 
-DNS does not provide this property without DNSSEC.
+DNS provides this property with DNSSEC. However, the lack of mandatory DNSSEC,
+and the lack of a viable transition strategy to mandatory DNSSEC, means that
+trust in infrastructure will remain necessary for DNS even with large scale
+DNSSEC deployment.
 
 # Observations
 
@@ -422,16 +443,16 @@ of the recursive resolver, DNS geographic load balancing within the geographic
 context of the client. Because DNS provides no protocol-level support for
 expressing these contexts, they remain implicit.
 
-We note that protocol-level support for this context explicit could point
-toward solutions for a variety of problems in currently deployed naming
-services, from generalized solutions with privacy/efficiency tradeoffs
-({RFC7871}} aside), to explicit redirection to
-alternate naming resolution for "special" names {{RFC6761}}.
+We note that protocol-level support for this context explicit could point toward
+solutions for a variety of problems in currently deployed naming services, from
+generalized solutions with privacy/efficiency tradeoffs ({RFC7871}} aside), to
+explicit redirection to alternate naming resolution for "special" names
+{{RFC6761}}.
 
 ## Unicode alone may not be sufficient for distinguishable names
 
 Allowing names to be encoded in Unicode goes a long way toward meeting the
-meaningfulness property (see {{meaningfulness}} for the majority of speakers
+meaningfulness property (see {{meaningfulness}}) for the majority of speakers
 of human languages. However, as noted by the Internet Architecture Board (see
 {{IAB-UNICODE7}}) and discussed at the Locale-free Unicode Identifiers (LUCID)
 BoF at IETF 92 in Dallas in March 2015 (see {{LUCID}}), it is not in the
@@ -439,6 +460,16 @@ general case sufficient for distinguishability (see {{distinguishability}}).
 An ideal naming service may therefore have to supplement Unicode by providing
 runtime support for disambiguation of queries and assertions where the results
 may be indistinguishable.
+
+## Implicit inconsistency makes global invariance challenging to verify
+
+DNS does not provide a generalized form of explicit inconsistency, so efforts to
+verify global invariance, or rather, to discover Associations for which global
+invariance does not hold, are necessarily effort-intensive and dynamic. For
+example, the Open Observatory of Network Interference performs DNS consistency
+checking from multiple volunteer vantage points for a set of targeted (i.e.,
+likely to be globally variant) domain names; see
+https://ooni.torproject.org/nettest/dns-consistency/
 
 # IANA Considerations
 

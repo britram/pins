@@ -4,12 +4,12 @@
 
 Network Working Group                                        B. Trammell
 Internet-Draft                                                ETH Zurich
-Intended status: Informational                            March 13, 2017
-Expires: September 14, 2017
+Intended status: Informational                        September 20, 2017
+Expires: March 24, 2018
 
 
                  Properties of an Ideal Naming Service
-                      draft-trammell-inip-pins-03
+                    draft-trammell-inip-pins-latest
 
 Abstract
 
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 14, 2017.
+   This Internet-Draft will expire on March 24, 2018.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Trammell               Expires September 14, 2017               [Page 1]
+Trammell                 Expires March 24, 2018                 [Page 1]
 
-Internet-Draft                    PINS                        March 2017
+Internet-Draft                    PINS                    September 2017
 
 
    to this document.  Code Components extracted from this document must
@@ -92,31 +92,34 @@ Table of Contents
      5.4.  Consistency . . . . . . . . . . . . . . . . . . . . . . .   8
        5.4.1.  Dynamic Consistency . . . . . . . . . . . . . . . . .   8
        5.4.2.  Explicit Inconsistency  . . . . . . . . . . . . . . .   8
+       5.4.3.  Global Invariance . . . . . . . . . . . . . . . . . .   9
      5.5.  Performance Properties  . . . . . . . . . . . . . . . . .   9
        5.5.1.  Availability  . . . . . . . . . . . . . . . . . . . .   9
-       5.5.2.  Lookup Latency  . . . . . . . . . . . . . . . . . . .   9
+       5.5.2.  Lookup Latency  . . . . . . . . . . . . . . . . . . .  10
        5.5.3.  Bandwidth Efficiency  . . . . . . . . . . . . . . . .  10
        5.5.4.  Query Linkability . . . . . . . . . . . . . . . . . .  10
        5.5.5.  Explicit Tradeoff . . . . . . . . . . . . . . . . . .  10
-     5.6.  Trust in Infrastructure . . . . . . . . . . . . . . . . .  10
+     5.6.  Trust in Infrastructure . . . . . . . . . . . . . . . . .  11
    6.  Observations  . . . . . . . . . . . . . . . . . . . . . . . .  11
      6.1.  Delegation and redirection are separate operations  . . .  11
      6.2.  Queries and assertion contexts are presently implicit . .  11
      6.3.  Unicode alone may not be sufficient for distinguishable
-           names . . . . . . . . . . . . . . . . . . . . . . . . . .  11
+           names . . . . . . . . . . . . . . . . . . . . . . . . . .  12
+     6.4.  Implicit inconsistency makes global invariance
+
+
+
+Trammell                 Expires March 24, 2018                 [Page 2]
+
+Internet-Draft                    PINS                    September 2017
+
+
+           challenging to verify . . . . . . . . . . . . . . . . . .  12
    7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
-
-
-
-Trammell               Expires September 14, 2017               [Page 2]
-
-Internet-Draft                    PINS                        March 2017
-
-
-   9.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  12
-   10. Informative References  . . . . . . . . . . . . . . . . . . .  12
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   9.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  13
+   10. Informative References  . . . . . . . . . . . . . . . . . . .  13
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -160,14 +163,11 @@ Internet-Draft                    PINS                        March 2017
       the part of a namespace identified by a Subject to a subordinate
       Authority.
 
-   [EDITOR'S NOTE: need to make a terminology unification pass]
 
 
-
-
-Trammell               Expires September 14, 2017               [Page 3]
+Trammell                 Expires March 24, 2018                 [Page 3]
 
-Internet-Draft                    PINS                        March 2017
+Internet-Draft                    PINS                    September 2017
 
 
 3.  Query Interface
@@ -221,9 +221,9 @@ Internet-Draft                    PINS                        March 2017
 
 
 
-Trammell               Expires September 14, 2017               [Page 4]
+Trammell                 Expires March 24, 2018                 [Page 4]
 
-Internet-Draft                    PINS                        March 2017
+Internet-Draft                    PINS                    September 2017
 
 
 3.4.  Name to Auxiliary Information
@@ -277,9 +277,9 @@ Internet-Draft                    PINS                        March 2017
 
 
 
-Trammell               Expires September 14, 2017               [Page 5]
+Trammell                 Expires March 24, 2018                 [Page 5]
 
-Internet-Draft                    PINS                        March 2017
+Internet-Draft                    PINS                    September 2017
 
 
 5.1.2.  Distinguishability
@@ -333,9 +333,9 @@ Internet-Draft                    PINS                        March 2017
 
 
 
-Trammell               Expires September 14, 2017               [Page 6]
+Trammell                 Expires March 24, 2018                 [Page 6]
 
-Internet-Draft                    PINS                        March 2017
+Internet-Draft                    PINS                    September 2017
 
 
 5.2.3.  Transparency of Authority
@@ -389,9 +389,9 @@ Internet-Draft                    PINS                        March 2017
 
 
 
-Trammell               Expires September 14, 2017               [Page 7]
+Trammell                 Expires March 24, 2018                 [Page 7]
 
-Internet-Draft                    PINS                        March 2017
+Internet-Draft                    PINS                    September 2017
 
 
 5.3.2.  Authenticity of Response
@@ -429,7 +429,10 @@ Internet-Draft                    PINS                        March 2017
    The time-to-live (TTL) on a resource record in DNS provides a
    mechanism for expiring old resource records.  We note that this
    mechanism makes additions to the system propagate faster than changes
-   and deletions, which may not be a desirable property.
+   and deletions, which may not be a desirable property.  However, as no
+   context information is explicitly available in DNS, the DNS cannot be
+   said to be dynamically consistent, as different implicitly
+   inconsistent views of an association may be persistent.
 
 5.4.2.  Explicit Inconsistency
 
@@ -439,17 +442,16 @@ Internet-Draft                    PINS                        March 2017
    explicit: a querier can know that an answer might be dependent on its
    identity, network location, or other factors.
 
+
+
+
+Trammell                 Expires March 24, 2018                 [Page 8]
+
+Internet-Draft                    PINS                    September 2017
+
+
    One example of such desirable inconsistency is the common practice of
    "split horizon" DNS, where an organization makes internal names
-
-
-
-
-Trammell               Expires September 14, 2017               [Page 8]
-
-Internet-Draft                    PINS                        March 2017
-
-
    available on its own network, but only the names of externally-
    visible subjects available to the Internet at large.
 
@@ -461,13 +463,26 @@ Internet-Draft                    PINS                        March 2017
    {RFC7871}}).  Such inconsistency based on client identity or network
    address may increase query linkability (see Section 5.5.4).
 
-   We note that while DNS can be deployed to allow essentially unlimited
-   kinds of inconsistency in its responses, there is no protocol support
-   for a query to express the kind of consistency it desires, or for a
-   response to explicitly note that it is inconsistent.  [RFC7871] does
-   allow a querier to note that it would specifically like the view of
-   the state of the namespace offered to a certain part of the network,
-   and as such can be seen as inchoate support for this property.
+   These forms of inconsistency are implicit, not explicit, in the
+   current DNS.  We note that while DNS can be deployed to allow
+   essentially unlimited kinds of inconsistency in its responses, there
+   is no protocol support for a query to express the kind of consistency
+   it desires, or for a response to explicitly note that it is
+   inconsistent.  [RFC7871] does allow a querier to note that it would
+   specifically like the view of the state of the namespace offered to a
+   certain part of the network, and as such can be seen as inchoate
+   support for this property.
+
+5.4.3.  Global Invariance
+
+   An Association which is not intended to be explicitly inconsistent by
+   the Authority issuing it must return the same result for every Query
+   for it, regardless of the identity or location of the querier.
+
+   This property is not provided by DNS, as it depends on the robust
+   support on the Explicit Inconsistency property above.  Examples of
+   global invariance failures include geofencing and DNS-based
+   censorship ordered by a local jurisdiction.
 
 5.5.  Performance Properties
 
@@ -484,6 +499,13 @@ Internet-Draft                    PINS                        March 2017
    among them.  Intentional prevention of successful, authenticated
    query by an adversary should be as hard as practical.
 
+
+
+Trammell                 Expires March 24, 2018                 [Page 9]
+
+Internet-Draft                    PINS                    September 2017
+
+
    The DNS protocol was designed to be highly available through the use
    of secondary nameservers.  Operational practices (e.g. anycast
    deployment) also increase the availability of DNS as currently
@@ -495,16 +517,6 @@ Internet-Draft                    PINS                        March 2017
    necessary associated data from the point of view of the querier,
    amortized over all queries for all connections, should not
    significantly impact connection setup or resumption latency.
-
-
-
-
-
-
-Trammell               Expires September 14, 2017               [Page 9]
-
-Internet-Draft                    PINS                        March 2017
-
 
 5.5.3.  Bandwidth Efficiency
 
@@ -542,6 +554,14 @@ Internet-Draft                    PINS                        March 2017
    There is no support for explicit tradeoffs in performance properties
    available to clients in the present DNS.
 
+
+
+
+Trammell                 Expires March 24, 2018                [Page 10]
+
+Internet-Draft                    PINS                    September 2017
+
+
 5.6.  Trust in Infrastructure
 
    A querier should not need to trust any entity other than the
@@ -550,17 +570,10 @@ Internet-Draft                    PINS                        March 2017
    trust any intermediary of infrastructure between itself and the
    authority, other than that under its own control.
 
-   DNS does not provide this property without DNSSEC.
-
-
-
-
-
-
-Trammell               Expires September 14, 2017              [Page 10]
-
-Internet-Draft                    PINS                        March 2017
-
+   DNS provides this property with DNSSEC.  However, the lack of
+   mandatory DNSSEC, and the lack of a viable transition strategy to
+   mandatory DNSSEC, means that trust in infrastructure will remain
+   necessary for DNS even with large scale DNSSEC deployment.
 
 6.  Observations
 
@@ -597,6 +610,14 @@ Internet-Draft                    PINS                        March 2017
    provides no protocol-level support for expressing these contexts,
    they remain implicit.
 
+
+
+
+Trammell                 Expires March 24, 2018                [Page 11]
+
+Internet-Draft                    PINS                    September 2017
+
+
    We note that protocol-level support for this context explicit could
    point toward solutions for a variety of problems in currently
    deployed naming services, from generalized solutions with privacy/
@@ -606,23 +627,27 @@ Internet-Draft                    PINS                        March 2017
 6.3.  Unicode alone may not be sufficient for distinguishable names
 
    Allowing names to be encoded in Unicode goes a long way toward
-   meeting the meaningfulness property (see Section 5.1.1 for the
+   meeting the meaningfulness property (see Section 5.1.1) for the
    majority of speakers of human languages.  However, as noted by the
    Internet Architecture Board (see [IAB-UNICODE7]) and discussed at the
    Locale-free Unicode Identifiers (LUCID) BoF at IETF 92 in Dallas in
-
-
-
-Trammell               Expires September 14, 2017              [Page 11]
-
-Internet-Draft                    PINS                        March 2017
-
-
    March 2015 (see [LUCID]), it is not in the general case sufficient
    for distinguishability (see Section 5.1.2).  An ideal naming service
    may therefore have to supplement Unicode by providing runtime support
    for disambiguation of queries and assertions where the results may be
    indistinguishable.
+
+6.4.  Implicit inconsistency makes global invariance challenging to
+      verify
+
+   DNS does not provide a generalized form of explicit inconsistency, so
+   efforts to verify global invariance, or rather, to discover
+   Associations for which global invariance does not hold, are
+   necessarily effort-intensive and dynamic.  For example, the Open
+   Observatory of Network Interference performs DNS consistency checking
+   from multiple volunteer vantage points for a set of targeted (i.e.,
+   likely to be globally variant) domain names; see
+   https://ooni.torproject.org/nettest/dns-consistency/
 
 7.  IANA Considerations
 
@@ -640,6 +665,14 @@ Internet-Draft                    PINS                        March 2017
    not hold, may be exploitable for phishing attacks, and Section 5.2.3
    specifies a property which may ease operational defense against
    malware abuse of the naming system.
+
+
+
+
+Trammell                 Expires March 24, 2018                [Page 12]
+
+Internet-Draft                    PINS                    September 2017
+
 
 9.  Acknowledgments
 
@@ -663,17 +696,6 @@ Internet-Draft                    PINS                        March 2017
               over Datagram Transport Layer Security (DTLS)", draft-
               ietf-dprive-dnsodtls-15 (work in progress), December 2016.
 
-
-
-
-
-
-
-Trammell               Expires September 14, 2017              [Page 12]
-
-Internet-Draft                    PINS                        March 2017
-
-
    [IAB-UNICODE7]
               IAB, ., "IAB Statement on Identifiers and Unicode 7.0.0",
               n.d., <https://www.iab.org/documents/correspondence-
@@ -687,48 +709,47 @@ Internet-Draft                    PINS                        March 2017
 
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
-              November 1987, <http://www.rfc-editor.org/info/rfc1035>.
+              November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
    [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
               Rose, "DNS Security Introduction and Requirements",
               RFC 4033, DOI 10.17487/RFC4033, March 2005,
-              <http://www.rfc-editor.org/info/rfc4033>.
+              <https://www.rfc-editor.org/info/rfc4033>.
 
    [RFC5730]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)",
               STD 69, RFC 5730, DOI 10.17487/RFC5730, August 2009,
-              <http://www.rfc-editor.org/info/rfc5730>.
+              <https://www.rfc-editor.org/info/rfc5730>.
+
+
+
+
+
+
+Trammell                 Expires March 24, 2018                [Page 13]
+
+Internet-Draft                    PINS                    September 2017
+
 
    [RFC6761]  Cheshire, S. and M. Krochmal, "Special-Use Domain Names",
               RFC 6761, DOI 10.17487/RFC6761, February 2013,
-              <http://www.rfc-editor.org/info/rfc6761>.
+              <https://www.rfc-editor.org/info/rfc6761>.
 
    [RFC7858]  Hu, Z., Zhu, L., Heidemann, J., Mankin, A., Wessels, D.,
               and P. Hoffman, "Specification for DNS over Transport
               Layer Security (TLS)", RFC 7858, DOI 10.17487/RFC7858, May
-              2016, <http://www.rfc-editor.org/info/rfc7858>.
+              2016, <https://www.rfc-editor.org/info/rfc7858>.
 
    [RFC7871]  Contavalli, C., van der Gaast, W., Lawrence, D., and W.
               Kumari, "Client Subnet in DNS Queries", RFC 7871,
-              DOI 10.17487/RFC7871, May 2016,
-              <http://www.rfc-editor.org/info/rfc7871>.
+              DOI 10.17487/RFC7871, May 2016, <https://www.rfc-
+              editor.org/info/rfc7871>.
 
    [RFC8094]  Reddy, T., Wing, D., and P. Patil, "DNS over Datagram
               Transport Layer Security (DTLS)", RFC 8094,
-              DOI 10.17487/RFC8094, February 2017,
-              <http://www.rfc-editor.org/info/rfc8094>.
+              DOI 10.17487/RFC8094, February 2017, <https://www.rfc-
+              editor.org/info/rfc8094>.
 
 Author's Address
-
-
-
-
-
-
-
-Trammell               Expires September 14, 2017              [Page 13]
-
-Internet-Draft                    PINS                        March 2017
-
 
    Brian Trammell
    ETH Zurich
@@ -760,25 +781,4 @@ Internet-Draft                    PINS                        March 2017
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Trammell               Expires September 14, 2017              [Page 14]
+Trammell                 Expires March 24, 2018                [Page 14]
